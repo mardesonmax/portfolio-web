@@ -9,9 +9,9 @@ export const Container = styled.header<Props>`
   width: 100%;
   top: 0;
   background: ${(props) => props.theme.container};
-  padding: 0 20px;
+  padding: 0 15px;
   z-index: 9999;
-  transition: 0.3s ease all;
+  transition: 0.5s ease all;
 
   ${(props) =>
     props.scrollTop > 60 &&
@@ -23,9 +23,10 @@ export const Container = styled.header<Props>`
 
   nav {
     margin: 0 auto;
-    height: 60px;
+    min-height: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
     max-width: 1200px;
 
@@ -40,51 +41,19 @@ export const Container = styled.header<Props>`
 
     ul {
       display: flex;
+      flex: 1;
+      justify-content: flex-end;
       list-style: none;
-      li.user {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: ${(props) => props.theme.primary};
-        margin-right: 10px;
-
-        svg {
-          margin-right: 8px;
-        }
-      }
 
       li {
         margin-left: 10px;
-
-        button {
-          border: none;
-          background: none;
-
-          &:hover {
-            color: ${(props) => props.theme.textLight};
-            background: ${(props) => props.theme.error};
-          }
-        }
-
-        a {
-          &:hover {
-            color: ${(props) => props.theme.textLight};
-            background: ${(props) => props.theme.primary};
-          }
-
-          &.active,
-          &.active:hover {
-            background: none;
-            color: ${(props) => props.theme.primary};
-          }
-        }
 
         a,
         button {
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 8px 10px;
+          padding: 5px 8px;
           text-decoration: none;
           color: ${(props) => props.theme.primary};
           position: relative;
@@ -103,6 +72,31 @@ export const Container = styled.header<Props>`
             left: 0;
             width: 100%;
             height: 2px;
+            background: ${(props) => props.theme.default};
+          }
+        }
+
+        a {
+          color: ${(props) => props.theme.default};
+
+          &:hover {
+            color: ${(props) => props.theme.textLight};
+            background: ${(props) => props.theme.default};
+          }
+
+          &.active,
+          &.active:hover {
+            background: none;
+            color: ${(props) => props.theme.default};
+          }
+        }
+
+        button {
+          border: none;
+          background: none;
+
+          &:hover {
+            color: ${(props) => props.theme.textLight};
             background: ${(props) => props.theme.primary};
           }
         }
@@ -113,6 +107,24 @@ export const Container = styled.header<Props>`
           }
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    nav ul li {
+      svg {
+        margin: 0 !important;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    nav ul {
+      margin-bottom: 5px;
+      justify-content: space-between;
     }
   }
 `;

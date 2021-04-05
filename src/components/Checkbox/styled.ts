@@ -3,20 +3,19 @@ import { transparentize } from 'polished';
 import Tooltip from '../Tooltip';
 
 interface LabelProps {
-  isFocused: boolean;
   isError: boolean;
   isFilled: boolean;
 }
 
-const animeScale = keyframes`
-   0%,
-    100% {
-      transform: translateX(-5px);
-    }
+const animation = keyframes`
+  0%,
+  100% {
+    transform: translateX(-5px);
+  }
 
-    50% {
-      transform: translateX(5px);
-    }
+  50% {
+    transform: translateX(5px);
+  }
 `;
 
 export const Container = styled.label<LabelProps>`
@@ -29,7 +28,6 @@ export const Container = styled.label<LabelProps>`
   border: 2px solid transparent;
   padding: 16px;
   border-radius: 5px;
-  border-radius: 5px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   transition: 0.2s ease all;
 
@@ -37,42 +35,20 @@ export const Container = styled.label<LabelProps>`
     props.isError &&
     css`
       border-color: ${props.theme.error};
-      animation: ${animeScale} 0.2s;
-
-      > svg,
-      > span {
-        color: ${props.theme.error};
-      }
+      animation: ${animation} 0.2s;
     `}
 
   ${(props) =>
-    props.isFocused &&
-    css`
-      border-color: ${props.theme.primary};
-      > svg {
-        color: ${props.theme.primary};
-        transform: scale(1.5);
-      }
-
-      > span {
-        color: ${props.theme.primary};
-      }
-    `}
-
-    ${(props) =>
     props.isFilled &&
     css`
-      > svg {
-        color: ${props.theme.primary};
-        transform: scale(1.5);
-      }
-
       > span {
         color: ${props.theme.primary};
       }
     `}
 
-  input {
+
+
+  input[type='checkbox'] {
     flex: 1;
     border: 0;
     background: transparent;
@@ -85,7 +61,13 @@ export const Container = styled.label<LabelProps>`
 
   > span {
     display: block;
-    margin-right: 8px;
+    flex: 1;
+  }
+
+  input[type='checkbox'] {
+    flex: none !important;
+    height: 18px;
+    width: 18px;
   }
 
   > svg {
@@ -110,7 +92,6 @@ export const Error = styled(Tooltip)`
 
   span {
     background: ${(props) => props.theme.error};
-    color: ${(props) => props.theme.textLight};
 
     &::before {
       border-color: ${(props) => props.theme.error} transparent;

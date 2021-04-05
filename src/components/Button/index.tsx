@@ -2,9 +2,11 @@ import React, { ButtonHTMLAttributes } from 'react';
 
 import { Container } from './styled';
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  bgColor?: 'primary' | 'secondary' | 'default';
+}
 
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+const Button: React.FC<Props> = ({ children, ...rest }) => {
   return (
     <Container type="button" {...rest}>
       {children}

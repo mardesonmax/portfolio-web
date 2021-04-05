@@ -1,5 +1,5 @@
 import React, {
-  InputHTMLAttributes,
+  TextareaHTMLAttributes,
   useCallback,
   useEffect,
   useRef,
@@ -8,54 +8,53 @@ import React, {
 import { useField } from '@unform/core';
 import { FiAlertCircle } from 'react-icons/fi';
 
-import { IconBaseProps } from 'react-icons';
 import { Container, Error } from './styled';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+interface InputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
-  icon?: React.ComponentType<IconBaseProps>;
+  label?: string;
 }
 
-const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
+const Textarea: React.FC<InputProps> = ({ label, name, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleOnBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!inputRef.current?.value);
+    setIsFilled(!!textareaRef.current?.value);
   }, []);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current,
+      ref: textareaRef.current,
       path: 'value',
     });
   }, [fieldName, registerField]);
 
   return (
     <Container isFilled={isFilled} isFocused={isFocused} isError={!!error}>
-      {Icon && <Icon />}
       {label && <span>{label}</span>}
-      <input
-        defaultValue={defaultValue}
-        onFocus={() => setIsFocused(true)}
-        onBlur={handleOnBlur}
-        name={name}
-        ref={inputRef}
-        {...rest}
-      />
-      {error && (
-        <Error error={error}>
-          <FiAlertCircle color="#f25264" />
-        </Error>
-      )}
+      <div>
+        <textarea
+          defaultValue={defaultValue}
+          onFocus={() => setIsFocused(true)}
+          onBlur={handleOnBlur}
+          name={name}
+          ref={textareaRef}
+          {...rest}
+        />
+        {error && (
+          <Error error={error}>
+            <FiAlertCircle color="#f25264" />
+          </Error>
+        )}
+      </div>
     </Container>
   );
 };
 
-export default Input;
+export default Textarea;

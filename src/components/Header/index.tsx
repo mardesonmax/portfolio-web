@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
   FiCode,
-  FiHome,
   FiLogOut,
   FiToggleRight,
   FiToggleLeft,
@@ -51,25 +50,22 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
   return user ? (
     <Container scrollTop={scrollTop}>
       <nav>
-        <Link className="logo" to="/dashboard">
+        <Link className="logo" to="/projects">
           <img src={logo} alt="MAXPB7" />
         </Link>
 
         <ul>
-          <li className="user">
-            <FiUser />
-            {`Olá, ${userName}`}
-          </li>
           <li>
-            <NavLink to="/dashboard">
-              <FiHome />
-              Home
+            <NavLink to="/profile">
+              <FiUser />
+              <span>{`Olá, ${userName}`}</span>
             </NavLink>
           </li>
+
           <li>
-            <NavLink to="/project">
+            <NavLink to="/projects">
               <FiCode />
-              Projetos
+              <span>Projetos</span>
             </NavLink>
           </li>
           <li>
@@ -78,15 +74,15 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
               type="button"
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             >
-              Light
+              <span>Light</span>
               {theme === 'light' ? <FiToggleLeft /> : <FiToggleRight />}
-              Dark
+              <span>Dark</span>
             </button>
           </li>
           <li>
             <button type="button" onClick={() => signOut()}>
               <FiLogOut />
-              Sair
+              <span>Sair</span>
             </button>
           </li>
         </ul>

@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
   div.error {
+    margin: 15px;
     background: ${(props) => props.theme.container};
+    box-shadow: ${(props) => props.theme.boxShadow};
     width: 100%;
     max-width: 500px;
     height: 300px;

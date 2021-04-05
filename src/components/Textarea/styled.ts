@@ -8,8 +8,8 @@ interface LabelProps {
   isFilled: boolean;
 }
 
-const animeScale = keyframes`
-   0%,
+const animation = keyframes`
+    0%,
     100% {
       transform: translateX(-5px);
     }
@@ -18,31 +18,31 @@ const animeScale = keyframes`
       transform: translateX(5px);
     }
 `;
-
 export const Container = styled.label<LabelProps>`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
   color: ${(props) => transparentize(0.7, props.theme.textDark)};
   background: ${(props) => props.theme.container};
   border: 2px solid transparent;
   padding: 16px;
   border-radius: 5px;
-  border-radius: 5px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   transition: 0.2s ease all;
+
+  > span {
+    margin-bottom: 5px;
+  }
+
+  > div {
+    display: flex;
+  }
 
   ${(props) =>
     props.isError &&
     css`
       border-color: ${props.theme.error};
-      animation: ${animeScale} 0.2s;
-
-      > svg,
-      > span {
-        color: ${props.theme.error};
-      }
+      animation: ${animation} 0.2s;
     `}
 
   ${(props) =>
@@ -72,7 +72,11 @@ export const Container = styled.label<LabelProps>`
       }
     `}
 
-  input {
+
+  textarea {
+    flex: 1;
+    resize: none;
+    height: 150px;
     flex: 1;
     border: 0;
     background: transparent;
@@ -81,16 +85,6 @@ export const Container = styled.label<LabelProps>`
     &::placeholder {
       color: ${(props) => transparentize(0.7, props.theme.textDark)};
     }
-  }
-
-  > span {
-    display: block;
-    margin-right: 8px;
-  }
-
-  > svg {
-    margin-right: 10px;
-    transition: 0.2s ease all;
   }
 
   & + label {
@@ -110,7 +104,6 @@ export const Error = styled(Tooltip)`
 
   span {
     background: ${(props) => props.theme.error};
-    color: ${(props) => props.theme.textLight};
 
     &::before {
       border-color: ${(props) => props.theme.error} transparent;

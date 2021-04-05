@@ -6,8 +6,8 @@ export const Container = styled.div`
   span {
     width: 160px;
     text-align: center;
-    background: #12c2e9;
-    color: #fff;
+    background: ${(props) => props.theme.primary};
+    color: ${(props) => props.theme.textLight};
     position: absolute;
     bottom: calc(100% + 10px);
     left: 50%;
@@ -23,7 +23,7 @@ export const Container = styled.div`
       content: '';
       position: absolute;
       border-style: solid;
-      border-color: #12c2e9 transparent;
+      border-color: ${(props) => props.theme.primary} transparent;
       border-width: 6px 6px 0px 6px;
       top: 100%;
       left: 50%;

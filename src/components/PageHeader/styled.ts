@@ -2,23 +2,24 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
+  background: ${(props) => props.theme.container};
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0 10px;
-  padding-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
   position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    width: 100%;
-    background: ${(props) => props.theme.background};
-  }
+  box-shadow: ${(props) => props.theme.boxShadow};
 
   h1 {
-    color: ${(props) => props.theme.primary};
+    color: ${(props) => props.theme.default};
+    font-weight: bold;
+  }
+
+  > div {
+    display: flex;
+    a {
+      margin-left: 10px;
+    }
   }
 `;

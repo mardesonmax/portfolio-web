@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-param-reassign */
 import React, {
   InputHTMLAttributes,
   useCallback,
@@ -12,40 +14,42 @@ import { IconBaseProps } from 'react-icons';
 import { Container, Error } from './styled';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  title?: string;
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
-  const [isFocused, setIsFocused] = useState(false);
+const Checkbox: React.FC<InputProps> = ({
+  title,
+  name,
+  icon: Icon,
+  ...rest
+}) => {
   const [isFilled, setIsFilled] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
-  const handleOnBlur = useCallback(() => {
-    setIsFocused(false);
-
-    setIsFilled(!!inputRef.current?.value);
+  const handleClick = useCallback(() => {
+    setIsFilled(!!inputRef.current?.checked);
   }, []);
 
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: inputRef.current,
-      path: 'value',
+      path: 'checked',
     });
-  }, [fieldName, registerField]);
-
+  }, [defaultValue, fieldName, registerField]);
   return (
-    <Container isFilled={isFilled} isFocused={isFocused} isError={!!error}>
+    <Container isFilled={isFilled} isError={!!error}>
       {Icon && <Icon />}
-      {label && <span>{label}</span>}
+      {title && <span>{title}</span>}
       <input
-        defaultValue={defaultValue}
-        onFocus={() => setIsFocused(true)}
-        onBlur={handleOnBlur}
+        defaultChecked={false}
+        onClick={handleClick}
         name={name}
+        type="checkbox"
+        value={defaultValue}
         ref={inputRef}
         {...rest}
       />
@@ -58,4 +62,4 @@ const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
   );
 };
 
-export default Input;
+export default Checkbox;
