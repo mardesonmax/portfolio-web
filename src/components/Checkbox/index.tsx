@@ -28,10 +28,18 @@ const Checkbox: React.FC<InputProps> = ({
   const [isFilled, setIsFilled] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+  const [isError, setIsError] = useState(false);
 
   const handleClick = useCallback(() => {
     setIsFilled(!!inputRef.current?.checked);
   }, []);
+
+  useEffect(() => {
+    setIsError(false);
+    if (error) {
+      setIsError(true);
+    }
+  }, [error]);
 
   useEffect(() => {
     registerField({
@@ -40,8 +48,9 @@ const Checkbox: React.FC<InputProps> = ({
       path: 'checked',
     });
   }, [defaultValue, fieldName, registerField]);
+
   return (
-    <Container isFilled={isFilled} isError={!!error}>
+    <Container isFilled={isFilled} isError={isError}>
       {Icon && <Icon />}
       {title && <span>{title}</span>}
       <input
