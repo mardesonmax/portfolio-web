@@ -40,17 +40,3 @@ export const Content = styled.div`
     }
   }
 `;
-
-export const NotFound = styled.div`
-  padding: 50px 10px;
-  text-align: center;
-
-  h1 {
-    color: ${(props) => props.theme.error};
-  }
-
-  p {
-    margin-top: 5px;
-    color: ${(props) => props.theme.textDark};
-  }
-`;

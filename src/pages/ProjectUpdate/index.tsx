@@ -18,8 +18,9 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import Checkbox from '../../components/Checkbox';
 import ButtonLink from '../../components/ButtonLink';
-import { Container, Content, NotFound } from './styled';
+import { Container, Content } from './styled';
 import Loading from '../../components/Loading';
+import NotFound from '../../components/NotFound';
 
 interface FormData {
   title: string;
@@ -157,55 +158,61 @@ const ProjectUpdate: React.FC = () => {
   return (
     <Container>
       <Content>
-        <PageHeader title="Editar Projeto">
-          <ButtonLink to="/projects">
-            <FiChevronLeft />
-            <span>Voltar</span>
-          </ButtonLink>
-        </PageHeader>
-
         {project.id ? (
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <UploadFile onUpload={onUpload} previews={previews} maxFiles={1} />
+          <>
+            <PageHeader title="Editar Projeto">
+              <ButtonLink to="/projects">
+                <FiChevronLeft />
+                <span>Voltar</span>
+              </ButtonLink>
+            </PageHeader>
 
-            <Input
-              type="text"
-              name="title"
-              label="Título:"
-              defaultValue={project.title}
-            />
-            <Input
-              name="link_code"
-              label="Código:"
-              defaultValue={project.link_code}
-            />
-            <Input
-              name="link_project:"
-              label="Projecto"
-              defaultValue={project.link_project}
-            />
-            <Textarea
-              label="Descrição:"
-              name="description"
-              defaultValue={project.description}
-            />
+            <Form ref={formRef} onSubmit={handleSubmit}>
+              <UploadFile
+                onUpload={onUpload}
+                previews={previews}
+                maxFiles={1}
+              />
 
-            <Checkbox
-              defaultChecked={project.status}
-              name="status"
-              title="Selecione para ativar o projeto"
-            />
+              <Input
+                type="text"
+                name="title"
+                label="Título:"
+                defaultValue={project.title}
+              />
+              <Input
+                name="link_code"
+                label="Código:"
+                defaultValue={project.link_code}
+              />
+              <Input
+                name="link_project:"
+                label="Projecto"
+                defaultValue={project.link_project}
+              />
+              <Textarea
+                label="Descrição:"
+                name="description"
+                defaultValue={project.description}
+              />
 
-            <div className="submit-button">
-              <Button type="submit">Concluir</Button>
-            </div>
-          </Form>
+              <Checkbox
+                defaultChecked={project.status}
+                name="status"
+                title="Selecione para ativar o projeto"
+              />
+
+              <div className="submit-button">
+                <Button type="submit">Concluir</Button>
+              </div>
+            </Form>
+          </>
         ) : (
           !loading && (
-            <NotFound>
-              <h1>Esta Página não está disponível</h1>
-              <p>O link pode não esta funcionando ou o Projeto foi removido</p>
-            </NotFound>
+            <NotFound
+              title="Esta Página não está disponível"
+              description="O link pode não esta funcionando ou o Projeto foi removido"
+            />
           )
         )}
 

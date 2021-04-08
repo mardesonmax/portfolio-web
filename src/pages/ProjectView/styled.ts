@@ -1,5 +1,17 @@
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
-import styled from 'styled-components';
+
+const animeTop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const Container = styled.section`
   display: flex;
@@ -14,6 +26,7 @@ export const Content = styled.div`
 `;
 
 export const ProjectContainer = styled.div`
+  animation: ${animeTop} 0.5s;
   .info {
     padding: 0 10px;
     overflow: hidden;
