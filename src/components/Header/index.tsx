@@ -3,6 +3,7 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import {
@@ -29,15 +30,20 @@ interface StateType {
 }
 
 const Header: React.FC<StateType> = ({ StateProps }) => {
+  const headerRef = useRef<HTMLDivElement>(null);
   const { user, signOut } = useAuth();
-  const [scrollTop, setScrollTop] = useState(0);
   const { theme, setTheme } = StateProps;
-  const userName = user?.name.split(' ');
+  const [scrollTop, setScrollTop] = useState(0);
+  const [height, setHeight] = useState(0);
 
   const handleScroll = useCallback(() => {
     const position = window.pageYOffset;
     setScrollTop(position);
   }, []);
+
+  useEffect(() => {
+    setHeight(headerRef.current?.offsetHeight || 50);
+  }, [headerRef.current?.offsetHeight]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -47,20 +53,22 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
     };
   }, [handleScroll]);
 
-  return user ? (
-    <Container scrollTop={scrollTop}>
+  return (
+    <Container scrollTop={scrollTop} ref={headerRef} height={height}>
       <nav>
         <Link className="logo" to="/projects">
           <img src={logo} alt="MAXPB7" />
         </Link>
 
         <ul>
-          <li>
-            <NavLink to="/profile">
-              <FiUser />
-              <span>{`Olá, ${userName}`}</span>
-            </NavLink>
-          </li>
+          {user && (
+            <li>
+              <NavLink to="/profile">
+                <FiUser />
+                <span>{`${user.name.split(' ')[0]}`}</span>
+              </NavLink>
+            </li>
+          )}
 
           <li>
             <NavLink to="/projects">
@@ -79,16 +87,19 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
               <span>Dark</span>
             </button>
           </li>
-          <li>
-            <button type="button" onClick={() => signOut()}>
-              <FiLogOut />
-              <span>Sair</span>
-            </button>
-          </li>
+
+          {user && (
+            <li>
+              <button type="button" onClick={() => signOut()}>
+                <FiLogOut />
+                <span>Sair</span>
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
     </Container>
-  ) : null;
+  );
 };
 
 export default Header;

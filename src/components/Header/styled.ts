@@ -1,29 +1,30 @@
 import styled, { css } from 'styled-components';
-import { transparentize } from 'polished';
 
 interface Props {
   scrollTop: number;
+  height: number;
 }
 
 export const Container = styled.header<Props>`
   width: 100%;
-  top: 0;
-  background: ${(props) => props.theme.container};
+  top: ${(props) => -props.height}px;
   padding: 0 15px;
   z-index: 9999;
-  transition: 0.5s ease all;
+  min-height: 60px;
+  background: ${(props) => props.theme.container};
 
   ${(props) =>
-    props.scrollTop > 60 &&
+    props.scrollTop > props.height &&
     css`
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       position: sticky;
-      box-shadow: ${props.theme.boxShadow};
-      background: ${transparentize(-1, props.theme.container)};
+      transition: 0.5s ease all;
+      transform: translateY(${props.height}px);
     `}
 
   nav {
     margin: 0 auto;
-    min-height: 50px;
+    min-height: inherit;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -67,6 +68,7 @@ export const Container = styled.header<Props>`
 
           &.active::before {
             content: '';
+            transition-delay: 1s ease all;
             position: absolute;
             bottom: 0;
             left: 0;
