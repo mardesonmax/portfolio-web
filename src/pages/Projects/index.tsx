@@ -1,58 +1,60 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FiEdit, FiSend } from 'react-icons/fi';
-import Button from '../../components/Button';
+import React, { useEffect, useState } from 'react';
+import { FiSend } from 'react-icons/fi';
+
+import { toast } from 'react-toastify';
 import ButtonLink from '../../components/ButtonLink';
+import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
 import PageHeader from '../../components/PageHeader';
+import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
-import { Container, Content } from './styled';
+import { Container, Content, ProjectsContainer } from './styled';
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  link_code?: string;
-  link_project?: string;
-  base_url: string;
-  status: boolean;
-  image: {
-    id: string;
-    url: string;
-  } | null;
-}
-const Project: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [projectRemoved, setProjectRemoved] = useState<Project>({} as Project);
+import ProjectItem, { IProject } from '../../components/ProjectItem';
+
+const Projects: React.FC = () => {
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [projectRemoved, setProjectRemoved] = useState<IProject>(
+    {} as IProject,
+  );
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [modalActive, setModalActive] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
-      const response = await api.get('/projects');
+      setLoading(true);
+      const response = user
+        ? await api.get('/projects?admin=active')
+        : await api.get('/projects');
       setProjects(response.data);
+      setLoading(false);
     })();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (confirmDelete) {
-      // Delete
-      console.log(`Já era ${projectRemoved}`);
+    (async () => {
+      if (confirmDelete && projectRemoved.id) {
+        // Delete
 
-      setProjects((state) =>
-        state.filter((project) => project.id !== projectRemoved.id),
-      );
+        await api.delete(`/projects/${projectRemoved.id}`);
 
-      setProjectRemoved({} as Project);
-      setConfirmDelete(false);
-      setModalActive(false);
-    }
+        setProjects((state) =>
+          state.filter((project) => project.id !== projectRemoved.id),
+        );
+
+        toast(`Projeto "${projectRemoved.title}" foi deletado com sucesso.`, {
+          type: 'success',
+        });
+
+        setProjectRemoved({} as IProject);
+        setConfirmDelete(false);
+        setModalActive(false);
+      }
+    })();
   }, [confirmDelete, projectRemoved]);
-
-  const handleDelete = useCallback((project: Project) => {
-    setProjectRemoved(project);
-    setModalActive(true);
-  }, []);
 
   return (
     <Container>
@@ -64,55 +66,33 @@ const Project: React.FC = () => {
           setProps={{ setConfirmDelete, setModalActive }}
         />
         <PageHeader title="Projetos">
-          <ButtonLink bgColor="primary" to="/projects/create">
-            <FiSend />
-            Novo Projeto
-          </ButtonLink>
+          {user && (
+            <ButtonLink bgColor="primary" to="/projects/create">
+              <FiSend />
+              <span>Novo Projeto</span>
+            </ButtonLink>
+          )}
         </PageHeader>
 
-        <div className="project-container">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`project-item ${
-                index % 2 === 1 ? 'left-position' : ''
-              } ${!project.status ? 'disabled' : ''}`}
-            >
-              <div className="col-1">
-                {project.image && (
-                  <img src={project.image.url} alt={project.title} />
-                )}
-              </div>
-
-              <div className="col-2 ">
-                <div className="info">
-                  <h2>{project.title}</h2>
-
-                  <p>{project.description}</p>
-                </div>
-                <div className="configs">
-                  <ButtonLink
-                    bgColor={index % 2 === 1 ? 'default' : 'primary'}
-                    to={`/projects/${project.base_url}/edit`}
-                  >
-                    <FiEdit />
-                    Editar Projeto
-                  </ButtonLink>
-
-                  <Button
-                    onClick={() => handleDelete(project)}
-                    bgColor="secondary"
-                  >
-                    Excluir
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {!loading ? (
+          <ProjectsContainer>
+            {projects.map((project, index) => (
+              <ProjectItem
+                user={!!user}
+                key={project.id}
+                index={index}
+                project={project}
+                setModalActive={setModalActive}
+                setProjectRemoved={setProjectRemoved}
+              />
+            ))}
+          </ProjectsContainer>
+        ) : (
+          <Loading />
+        )}
       </Content>
     </Container>
   );
 };
 
-export default Project;
+export default Projects;
