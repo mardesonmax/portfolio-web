@@ -21,6 +21,7 @@ const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isError, setIsError] = useState(false);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleOnBlur = useCallback(() => {
@@ -28,6 +29,13 @@ const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
 
     setIsFilled(!!inputRef.current?.value);
   }, []);
+
+  useEffect(() => {
+    setIsError(false);
+    if (error) {
+      setIsError(true);
+    }
+  }, [error]);
 
   useEffect(() => {
     registerField({
@@ -38,7 +46,7 @@ const Input: React.FC<InputProps> = ({ label, name, icon: Icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isFilled={isFilled} isFocused={isFocused} isError={!!error}>
+    <Container isFilled={isFilled} isFocused={isFocused} isError={isError}>
       {Icon && <Icon />}
       {label && <span>{label}</span>}
       <input
