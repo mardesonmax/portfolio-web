@@ -35,6 +35,10 @@ export const Container = styled.button<Props>`
   transition: 0.2s ease all;
   color: ${(props) => props.theme.textLight};
 
+  svg {
+    margin-right: 6px;
+  }
+
   ${(props) => backgroundButton[props.bgColor || 'default']}
 
   &:hover {
