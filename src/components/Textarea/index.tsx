@@ -20,12 +20,20 @@ const Textarea: React.FC<InputProps> = ({ label, name, ...rest }) => {
   const [isFilled, setIsFilled] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+  const [isError, setIsError] = useState(false);
 
   const handleOnBlur = useCallback(() => {
     setIsFocused(false);
 
     setIsFilled(!!textareaRef.current?.value);
   }, []);
+
+  useEffect(() => {
+    setIsError(false);
+    if (error) {
+      setIsError(true);
+    }
+  }, [error]);
 
   useEffect(() => {
     registerField({
@@ -36,7 +44,7 @@ const Textarea: React.FC<InputProps> = ({ label, name, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isFilled={isFilled} isFocused={isFocused} isError={!!error}>
+    <Container isFilled={isFilled} isFocused={isFocused} isError={isError}>
       {label && <span>{label}</span>}
       <div>
         <textarea

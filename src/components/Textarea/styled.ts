@@ -24,10 +24,10 @@ export const Container = styled.label<LabelProps>`
   width: 100%;
   color: ${(props) => transparentize(0.7, props.theme.textDark)};
   background: ${(props) => props.theme.container};
+  box-shadow: ${(props) => props.theme.boxShadow};
   border: 2px solid transparent;
   padding: 16px;
   border-radius: 5px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   transition: 0.2s ease all;
 
   > span {
@@ -43,6 +43,10 @@ export const Container = styled.label<LabelProps>`
     css`
       border-color: ${props.theme.error};
       animation: ${animation} 0.2s;
+
+      > span {
+        color: ${props.theme.error};
+      }
     `}
 
   ${(props) =>
