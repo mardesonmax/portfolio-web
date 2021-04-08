@@ -26,7 +26,7 @@ const backgroundButton = {
   `,
 };
 
-export const Container = styled.span<Props>`
+export const Container = styled.div<Props>`
   a {
     ${(props) => backgroundButton[props.bgColor || 'default']};
   }
@@ -48,6 +48,6 @@ export const ButtonContainer = styled(Link)`
   }
 
   svg {
-    margin-right: 8px;
+    margin-right: 6px;
   }
 `;
