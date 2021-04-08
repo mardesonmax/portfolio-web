@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import api from '../services/api';
 
 interface IUser {
@@ -21,6 +27,7 @@ interface IAuthContextData {
   user: IUser;
   signIn(credentials: ISignInCredentials): Promise<void>;
   signOut(): void;
+  updateUser(user: IUser): void;
 }
 
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
@@ -32,6 +39,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
+
       return {
         token,
         user: JSON.parse(user),
@@ -66,8 +74,32 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({} as IAuthState);
   }, []);
 
+  useEffect(() => {
+    api.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      async (error) => {
+        if (error.response.status === 401 && data.token) {
+          signOut();
+        }
+      },
+    );
+  }, [data, signOut]);
+
+  const updateUser = useCallback(
+    (user: IUser) => {
+      localStorage.setItem('@MaxPB7:user', JSON.stringify(user));
+
+      setData({ ...data, user });
+    },
+    [data],
+  );
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
