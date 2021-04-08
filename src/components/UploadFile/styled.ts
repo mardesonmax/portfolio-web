@@ -18,16 +18,20 @@ const dragActive = css`
 `;
 
 export const Container = styled.div`
-  background: ${(props) => props.theme.container};
-  padding: 10px;
   border-radius: 5px;
   margin: 15px 0;
-  box-shadow: ${(props) => props.theme.boxShadow};
 
-  img {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+  .view {
+    display: flex;
+    max-height: 400px;
+
+    img {
+      margin-top: 10px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+      box-shadow: ${(props) => props.theme.boxShadow};
+    }
   }
 `;
 
@@ -39,6 +43,7 @@ export const Dropzone = styled.div<DropzoneProps>`
   min-height: 60px;
   width: 100%;
   padding: 15px;
+  background: ${(props) => props.theme.container};
   border: 2px dashed ${(props) => transparentize(0.6, props.theme.textDark)};
   border-radius: 5px;
   text-align: center;

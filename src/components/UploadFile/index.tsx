@@ -74,10 +74,16 @@ const UploadFile: React.FC<Props> = ({ previews, onUpload, maxFiles }) => {
         <input {...getInputProps()} />
         {handleDropMessage()}
       </Dropzone>
-      {previews &&
-        previews.map((file) => (
-          <img key={file.id ? file.id : file.name} src={file.url} alt="File" />
-        ))}
+      <div className="view">
+        {previews &&
+          previews.map((file) => (
+            <img
+              key={file.id ? file.id : file.name}
+              src={file.url}
+              alt="File"
+            />
+          ))}
+      </div>
     </Container>
   );
 };
