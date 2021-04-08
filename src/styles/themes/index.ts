@@ -7,9 +7,9 @@ const themes = {
     textLight: '#f9f9f9',
     error: '#f25264',
     success: '#2abb9b',
-    container: 'rgba(255, 255, 255, 0.7)',
-    background: '#efefef',
-    boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
+    container: '#fff',
+    background: '#f0f2f5',
+    boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.06)',
   },
 
   dark: {
@@ -20,9 +20,9 @@ const themes = {
     textLight: '#f9f9f9',
     error: '#f25264',
     success: '#2abb9b',
-    container: 'rgba(0, 0, 0, 0.3)',
+    container: '#252525',
     background: '#303030',
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.08)',
   },
 };
 

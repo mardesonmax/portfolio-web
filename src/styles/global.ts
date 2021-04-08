@@ -12,6 +12,18 @@ export default createGlobalStyle`
   body {
     background: ${(props) => props.theme.background};
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body,
+  html {
+    scroll-behavior: smooth;
   }
 
   body, input, button {
