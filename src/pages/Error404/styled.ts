@@ -2,13 +2,12 @@ import styled from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
+  height: calc(100vh - 90px);
   justify-content: center;
   align-items: center;
 
   div.error {
     margin: 15px;
-    background: ${(props) => props.theme.container};
-    box-shadow: ${(props) => props.theme.boxShadow};
     width: 100%;
     max-width: 500px;
     height: 300px;
@@ -18,6 +17,12 @@ export const Container = styled.section`
     justify-content: center;
     border-radius: 5px;
     padding: 10px;
+
+    > svg {
+      color: ${(props) => props.theme.error};
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
 
     span {
       display: flex;
