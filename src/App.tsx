@@ -9,6 +9,7 @@ import AppProvider from './hooks';
 import GlobalStyles from './styles/global';
 import Routes from './routes';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import usePersistedState from './utils/usePersistedState';
 
 export type InitialState = 'light' | 'dark';
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         <AppProvider>
           <Header StateProps={{ theme, setTheme }} />
           <Routes />
+          <Footer />
         </AppProvider>
         <GlobalStyles />
         <ToastContainer autoClose={3000} className="toast-container" />
