@@ -2,14 +2,14 @@ import { shade } from 'polished';
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 10;
 
-  img {
-    width: 200px;
+  h1 {
     margin-bottom: 20px;
+    color: ${(props) => props.theme.primary};
   }
 
   form {
@@ -20,9 +20,7 @@ export const Container = styled.section`
     max-width: 400px;
     padding: 20px;
     margin: 0 20px;
-    background: ${(props) => props.theme.container};
     border-radius: 5px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
     a {
       text-decoration: none;

@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 
 import * as Yup from 'yup';
 import { Container } from './styled';
-import logoSvg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -58,7 +57,7 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <img src={logoSvg} alt="MAXPB7" />
+        <h1>Faça seu login</h1>
 
         <Input name="email" icon={FiUser} placeholder="E-mail" />
         <Input
