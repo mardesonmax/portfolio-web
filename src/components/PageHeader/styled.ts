@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  background: ${(props) => props.theme.container};
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
@@ -10,16 +9,35 @@ export const Container = styled.div`
   border-radius: 5px;
   position: relative;
   box-shadow: ${(props) => props.theme.boxShadow};
+  background: ${(props) => props.theme.container};
 
   h1 {
     color: ${(props) => props.theme.default};
     font-weight: bold;
+    font-size: 25px;
   }
 
   > div {
     display: flex;
-    a {
+    > div {
       margin-left: 10px;
+      a {
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    > div {
+      margin-left: 10px;
+      button,
+      a {
+        svg {
+          margin: 0;
+        }
+        span {
+          display: none;
+        }
+      }
     }
   }
 `;
