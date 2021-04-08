@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { FiLock, FiMail, FiTablet, FiUser } from 'react-icons/fi';
+import { FiInfo, FiLock, FiMail, FiTablet, FiUser } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import PageHeader from '../../components/PageHeader';
 
 import { Container, Content } from './styled';
@@ -10,25 +11,41 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import ButtonLink from '../../components/ButtonLink';
 import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
+
+  const handleSubmit = useCallback(
+    async (data) => {
+      const response = await api.post('/users', data);
+
+      updateUser(response.data);
+
+      toast('Perfil atualizado com sucesso.', {
+        type: 'success',
+      });
+    },
+    [updateUser],
+  );
+
   return (
     <Container>
       <Content>
-        <PageHeader title="Editar perfil">
+        <PageHeader title="Perfil">
           <div>
             <ButtonLink to="/profile/contact">
-              <FiTablet /> Contatos
+              <FiTablet /> <span>Contatos</span>
             </ButtonLink>
 
             <ButtonLink to="/profile/about">
-              <FiUser /> Sobre mim
+              <FiInfo /> <span>Sobre mim</span>
             </ButtonLink>
           </div>
         </PageHeader>
-        <Form ref={formRef} onSubmit={() => console.log('ok')}>
+
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <Input
             icon={FiUser}
             name="name"
@@ -49,7 +66,7 @@ const Profile: React.FC = () => {
             placeholder="Senha"
           />
           <div>
-            <Button>Concluir</Button>
+            <Button type="submit">Concluir</Button>
           </div>
         </Form>
       </Content>
