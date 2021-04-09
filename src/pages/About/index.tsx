@@ -132,7 +132,7 @@ const About: React.FC = () => {
           state.filter((project) => project.id !== aboutRemoved.id),
         );
 
-        toast(`About "${aboutRemoved.title}" foi deletado com sucesso.`, {
+        toast(`"${aboutRemoved.title}" foi deletado com sucesso.`, {
           type: 'success',
         });
 
