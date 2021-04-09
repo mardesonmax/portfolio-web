@@ -50,6 +50,7 @@ const ProjectView: React.FC = () => {
 
   return (
     <Container>
+      {loading && <Loading />}
       <Content>
         {project.id ? (
           <ProjectContainer>
@@ -102,7 +103,6 @@ const ProjectView: React.FC = () => {
             />
           )
         )}
-        {loading && <Loading />}
       </Content>
     </Container>
   );

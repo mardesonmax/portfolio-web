@@ -51,9 +51,7 @@ const ProjectItem: React.FC<Props> = ({
     <ProjectContent>
       <Link
         to={`/projects/view/${project.base_url}`}
-        className={`project-item ${index % 2 === 1 ? 'left-position' : ''} ${
-          !project.status ? 'disabled' : ''
-        }`}
+        className={`project-item} ${!project.status ? 'disabled' : ''}`}
       >
         <div className="col-1">
           {project.image && <img src={project.image.url} alt={project.title} />}

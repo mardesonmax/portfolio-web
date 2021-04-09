@@ -98,6 +98,7 @@ const ProjectUpdate: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: FormData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
           title: Yup.string().required('Título é obrigatório'),
@@ -135,6 +136,8 @@ const ProjectUpdate: React.FC = () => {
         toast('Erro ao tentar atualizar informações do projeto!', {
           type: 'error',
         });
+      } finally {
+        setLoading(false);
       }
     },
     [files, handleUploadFile, project, history],
@@ -157,6 +160,7 @@ const ProjectUpdate: React.FC = () => {
 
   return (
     <Container>
+      {loading && <Loading />}
       <Content>
         {project.id ? (
           <>
@@ -215,8 +219,6 @@ const ProjectUpdate: React.FC = () => {
             />
           )
         )}
-
-        {loading && <Loading />}
       </Content>
     </Container>
   );

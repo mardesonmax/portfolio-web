@@ -9,7 +9,7 @@ import PageHeader from '../../components/PageHeader';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
-import { Container, Content, ProjectsContainer } from './styled';
+import { Container, Content } from './styled';
 
 import ProjectItem, { IProject } from '../../components/ProjectItem';
 
@@ -58,6 +58,7 @@ const Projects: React.FC = () => {
 
   return (
     <Container>
+      {loading && <Loading />}
       <Content>
         <Modal
           title={`Deletar ${projectRemoved.title}`}
@@ -74,8 +75,8 @@ const Projects: React.FC = () => {
           )}
         </PageHeader>
 
-        {!loading ? (
-          <ProjectsContainer>
+        {projects && (
+          <div>
             {projects.map((project, index) => (
               <ProjectItem
                 user={!!user}
@@ -86,9 +87,7 @@ const Projects: React.FC = () => {
                 setProjectRemoved={setProjectRemoved}
               />
             ))}
-          </ProjectsContainer>
-        ) : (
-          <Loading />
+          </div>
         )}
       </Content>
     </Container>

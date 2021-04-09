@@ -83,6 +83,7 @@ export const AboutContact = styled.div`
     color: ${(props) => props.theme.textDark};
     position: relative;
     overflow: hidden;
+    opacity: 1;
 
     p {
       margin-top: 10px;

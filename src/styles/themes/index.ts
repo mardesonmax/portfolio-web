@@ -9,7 +9,7 @@ const themes = {
     success: '#2abb9b',
     container: '#fff',
     background: '#f0f2f5',
-    boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.06)',
+    boxShadow: '0 0 1.5px 1px rgba(0, 0, 0, 0.06)',
   },
 
   dark: {

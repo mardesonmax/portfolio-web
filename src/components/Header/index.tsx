@@ -8,10 +8,10 @@ import React, {
 } from 'react';
 import {
   FiCode,
-  FiLogOut,
   FiToggleRight,
   FiToggleLeft,
   FiUser,
+  FiSmartphone,
 } from 'react-icons/fi';
 
 import { Link, NavLink } from 'react-router-dom';
@@ -22,6 +22,8 @@ import { useAuth } from '../../hooks/auth';
 
 import { InitialState } from '../../App';
 
+import ProfileJpg from '../../assets/profile.jpeg';
+
 interface StateType {
   StateProps: {
     theme: InitialState;
@@ -31,7 +33,7 @@ interface StateType {
 
 const Header: React.FC<StateType> = ({ StateProps }) => {
   const headerRef = useRef<HTMLDivElement>(null);
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { theme, setTheme } = StateProps;
   const [scrollTop, setScrollTop] = useState(0);
   const [height, setHeight] = useState(0);
@@ -64,7 +66,7 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
           {user && (
             <li>
               <NavLink to="/profile">
-                <FiUser />
+                <img src={ProfileJpg} alt={user.name.split(' ')[0]} />
                 <span>{`${user.name.split(' ')[0]}`}</span>
               </NavLink>
             </li>
@@ -76,6 +78,21 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
               <span>Projetos</span>
             </NavLink>
           </li>
+
+          <li>
+            <NavLink to="/about">
+              <FiUser />
+              <span>Sobre min</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/contact">
+              <FiSmartphone />
+              <span>Contato</span>
+            </NavLink>
+          </li>
+
           <li>
             <button
               className="theme"
@@ -87,15 +104,6 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
               <span>Dark</span>
             </button>
           </li>
-
-          {user && (
-            <li>
-              <button type="button" onClick={() => signOut()}>
-                <FiLogOut />
-                <span>Sair</span>
-              </button>
-            </li>
-          )}
         </ul>
       </nav>
     </Container>

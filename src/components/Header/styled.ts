@@ -16,7 +16,7 @@ export const Container = styled.header<Props>`
   ${(props) =>
     props.scrollTop > props.height &&
     css`
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       position: sticky;
       transition: 0.5s ease all;
       transform: translateY(${props.height}px);
@@ -49,6 +49,12 @@ export const Container = styled.header<Props>`
       li {
         margin-left: 10px;
 
+        img {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+        }
+
         a,
         button {
           display: flex;
@@ -62,8 +68,11 @@ export const Container = styled.header<Props>`
           transition: 0.2s ease all;
 
           svg {
-            margin-right: 5px;
-            font-size: 20px;
+            font-size: 22px;
+          }
+
+          span {
+            margin-left: 5px;
           }
 
           &.active::before {

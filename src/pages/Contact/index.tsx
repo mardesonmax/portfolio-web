@@ -51,6 +51,7 @@ const Contact: React.FC = () => {
   }, []);
   return (
     <Container>
+      {loading && <Loading />}
       <Content>
         <PageHeader title="Contatos">
           <ButtonLink to="/profile">
@@ -59,7 +60,7 @@ const Contact: React.FC = () => {
           </ButtonLink>
         </PageHeader>
 
-        {!loading ? (
+        {contact.id && (
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
               icon={FiFacebook}
@@ -107,8 +108,6 @@ const Contact: React.FC = () => {
               <Button type="submit">Concluir</Button>
             </div>
           </Form>
-        ) : (
-          <Loading />
         )}
       </Content>
     </Container>

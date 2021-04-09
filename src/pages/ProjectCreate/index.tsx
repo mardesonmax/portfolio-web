@@ -18,6 +18,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import Checkbox from '../../components/Checkbox';
 import ButtonLink from '../../components/ButtonLink';
+import Loading from '../../components/Loading';
 
 interface FormData {
   title: string;
@@ -34,7 +35,7 @@ const ProjectCreate: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [previews, setPreviews] = useState<File[]>([]);
-
+  const [loading, setLoading] = useState(false);
   const handleUploadFile = useCallback(
     async (filesData: FileWithPath[], proj_id: string) => {
       const data = new FormData();
@@ -50,6 +51,7 @@ const ProjectCreate: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: FormData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
           title: Yup.string().required('Título é obrigatório'),
@@ -69,9 +71,11 @@ const ProjectCreate: React.FC = () => {
         toast('Projeto cadastrado com sucesso.', {
           type: 'success',
         });
+        setLoading(false);
 
         history.push('/projects');
       } catch (err) {
+        setLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
@@ -106,6 +110,7 @@ const ProjectCreate: React.FC = () => {
 
   return (
     <Container>
+      {loading && <Loading />}
       <Content>
         <PageHeader title="Adicionar Projeto">
           <ButtonLink to="/projects">

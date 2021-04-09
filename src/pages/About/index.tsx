@@ -15,6 +15,7 @@ import ButtonLink from '../../components/ButtonLink';
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
 import Modal from '../../components/Modal';
+import Loading from '../../components/Loading';
 
 interface IAbout {
   id: string;
@@ -30,11 +31,17 @@ const About: React.FC = () => {
   const [aboutRemoved, setAboutRemoved] = useState<IAbout>({} as IAbout);
   const [modalActive, setModalActive] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const response = await api.get('/abouts');
-      setAbouts(response.data);
+      try {
+        const response = await api.get('/abouts');
+        setAbouts(response.data);
+        setLoading(false);
+      } catch {
+        setLoading(false);
+      }
     })();
   }, []);
 
@@ -145,6 +152,7 @@ const About: React.FC = () => {
 
   return (
     <Container>
+      {loading && <Loading />}
       <Modal
         title={`Deletar ${aboutRemoved.title}`}
         description="Deseja realmente apagar essa informação?"

@@ -12,10 +12,35 @@ const animeLeftRight = keyframes`
   }
 `;
 
+const animeLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const animeRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 export const ProjectContent = styled.div`
   position: relative;
 
   > a {
+    animation: ${animeLeft} 0.5s;
     display: flex;
     flex-wrap: wrap;
     margin: 15px 0;
@@ -83,19 +108,6 @@ export const ProjectContent = styled.div`
       }
     }
 
-    &.left-position {
-      border-color: ${(props) => props.theme.default};
-      .col-2 {
-        order: 6;
-        .info {
-          h2,
-          span {
-            color: ${(props) => props.theme.default};
-          }
-        }
-      }
-    }
-
     &:hover {
       img {
         transform: scale(1.02);
@@ -106,15 +118,6 @@ export const ProjectContent = styled.div`
           h2,
           span {
             color: ${(props) => shade(0.2, props.theme.primary)};
-          }
-        }
-      }
-
-      &.left-position {
-        .col-2 {
-          h2,
-          span {
-            color: ${(props) => shade(0.2, props.theme.default)};
           }
         }
       }
@@ -136,6 +139,29 @@ export const ProjectContent = styled.div`
       font-size: 16px;
       font-weight: 500;
       z-index: 200;
+    }
+  }
+
+  &:nth-child(2n) > a {
+    animation: ${animeRight} 0.5s;
+    border-color: ${(props) => props.theme.default};
+    .col-2 {
+      order: 6;
+      .info {
+        h2,
+        span {
+          color: ${(props) => props.theme.default};
+        }
+      }
+
+      &:hover {
+        .info {
+          h2,
+          span {
+            color: ${(props) => shade(0.2, props.theme.default)};
+          }
+        }
+      }
     }
   }
 
@@ -190,11 +216,9 @@ export const ProjectContent = styled.div`
   }
 
   @media (max-width: 768px) {
-    > a {
-      &.left-position {
-        .col-2 {
-          order: 12;
-        }
+    &:nth-child(2n) > a {
+      .col-2 {
+        order: 12;
       }
     }
   }
