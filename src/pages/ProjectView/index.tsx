@@ -41,7 +41,8 @@ const ProjectView: React.FC = () => {
         setLoading(true);
         const response = await api.get(`/projects/${params.base_url}`);
         setProject(response.data);
-      } finally {
+        setLoading(false);
+      } catch {
         setLoading(false);
       }
     })();
