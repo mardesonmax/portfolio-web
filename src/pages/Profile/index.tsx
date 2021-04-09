@@ -2,7 +2,14 @@ import React, { useCallback, useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { FiInfo, FiLock, FiMail, FiTablet, FiUser } from 'react-icons/fi';
+import {
+  FiInfo,
+  FiLock,
+  FiMail,
+  FiPower,
+  FiTablet,
+  FiUser,
+} from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import PageHeader from '../../components/PageHeader';
 
@@ -14,7 +21,7 @@ import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 const Profile: React.FC = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, signOut } = useAuth();
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
@@ -42,6 +49,10 @@ const Profile: React.FC = () => {
             <ButtonLink to="/profile/about">
               <FiInfo /> <span>Sobre mim</span>
             </ButtonLink>
+
+            <Button bgColor="secondary" onClick={() => signOut()}>
+              <FiPower /> <span>Sair</span>
+            </Button>
           </div>
         </PageHeader>
 
