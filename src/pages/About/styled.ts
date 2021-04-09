@@ -84,6 +84,10 @@ export const AboutContact = styled.div`
     position: relative;
     overflow: hidden;
 
+    p {
+      margin-top: 10px;
+    }
+
     > div {
       display: flex;
       width: 100%;

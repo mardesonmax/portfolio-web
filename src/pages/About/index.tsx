@@ -14,6 +14,7 @@ import Textarea from '../../components/Textarea';
 import ButtonLink from '../../components/ButtonLink';
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
+import Modal from '../../components/Modal';
 
 interface IAbout {
   id: string;
@@ -26,6 +27,9 @@ const About: React.FC = () => {
   const [abouts, setAbouts] = useState<IAbout[]>([]);
   const [aboutEdit, setAboutEdit] = useState('');
   const [aboutPlus, setAboutPlus] = useState(false);
+  const [aboutRemoved, setAboutRemoved] = useState<IAbout>({} as IAbout);
+  const [modalActive, setModalActive] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -34,42 +38,74 @@ const About: React.FC = () => {
     })();
   }, []);
 
-  const handleSubmit = useCallback(async (data) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        title: Yup.string().required('Titulo obrigatório'),
-        description: Yup.string().required('Descrição obrigatória'),
-      });
+  const handleSubmit = useCallback(
+    async (data) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          title: Yup.string().required('Titulo obrigatório'),
+          description: Yup.string().required('Descrição obrigatória'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      const response = await api.post('/abouts', data);
+        if (aboutEdit) {
+          const response = await api.put(`/abouts/${aboutEdit}`, data);
 
-      setAbouts((state) => [...state, response.data]);
-      formRef.current?.reset();
+          setAbouts((state) =>
+            state.map((about) => {
+              if (about.id === response.data.id) {
+                return response.data;
+              }
+              return about;
+            }),
+          );
 
-      toast('Informações salvas com sucesso.', {
-        type: 'success',
-      });
+          toast('Informação alterada com sucesso.', {
+            type: 'success',
+          });
 
-      setAboutPlus(false);
+          setAboutEdit('');
 
-      window.scrollTo(0, document.querySelector('html')?.scrollHeight || 0);
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
-        return;
+          return;
+        }
+
+        const response = await api.post('/abouts', data);
+
+        setAbouts((state) => [...state, response.data]);
+        formRef.current?.reset();
+
+        toast('Informação inserida com sucesso.', {
+          type: 'success',
+        });
+
+        setAboutPlus(false);
+
+        window.scrollTo(0, document.querySelector('html')?.scrollHeight || 0);
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+          return;
+        }
+
+        toast('Algo deu errado, tente novamente.', {
+          type: 'error',
+        });
       }
+    },
+    [aboutEdit],
+  );
 
-      toast('Algo deu errado, tente novamente.', {
-        type: 'error',
-      });
-    }
-  }, []);
+  const handleDelete = useCallback(
+    (about: IAbout) => {
+      setAboutRemoved(about);
+      setModalActive(true);
+    },
+    [setAboutRemoved, setModalActive],
+  );
 
   const handleAbort = useCallback(() => {
     setAboutEdit('');
@@ -85,8 +121,37 @@ const About: React.FC = () => {
     setAboutEdit('');
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (confirmDelete && aboutRemoved.id) {
+        // Delete
+
+        await api.delete(`/abouts/${aboutRemoved.id}`);
+
+        setAbouts((state) =>
+          state.filter((project) => project.id !== aboutRemoved.id),
+        );
+
+        toast(`About "${aboutRemoved.title}" foi deletado com sucesso.`, {
+          type: 'success',
+        });
+
+        setAboutRemoved({} as IAbout);
+        setConfirmDelete(false);
+        setModalActive(false);
+      }
+    })();
+  }, [aboutRemoved, confirmDelete]);
+
   return (
     <Container>
+      <Modal
+        title={`Deletar ${aboutRemoved.title}`}
+        description="Deseja realmente apagar essa informação?"
+        active={modalActive}
+        setProps={{ setConfirmDelete, setModalActive }}
+      />
+
       <Content>
         <PageHeader title="Sobre mim">
           <div>
@@ -145,7 +210,12 @@ const About: React.FC = () => {
                       <Button onClick={() => handleAboutEdit(about.id)}>
                         Editar
                       </Button>
-                      <Button bgColor="secondary">Excluir</Button>
+                      <Button
+                        onClick={() => handleDelete(about)}
+                        bgColor="secondary"
+                      >
+                        Excluir
+                      </Button>
                     </div>
                   </div>
                 ),
