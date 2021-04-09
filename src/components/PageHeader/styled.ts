@@ -19,10 +19,9 @@ export const Container = styled.div`
 
   > div {
     display: flex;
-    > div {
+    > div a,
+    button {
       margin-left: 10px;
-      a {
-      }
     }
   }
 
