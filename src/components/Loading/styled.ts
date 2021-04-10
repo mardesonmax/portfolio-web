@@ -42,6 +42,8 @@ export const Container = styled.div`
     position: relative;
     width: 60px;
     height: 60px;
+    border-radius: 50%;
+    box-shadow: ${(props) => props.theme.boxShadow};
 
     > div {
       display: flex;
