@@ -12,7 +12,6 @@ export const Container = styled.div<Props>`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +38,11 @@ export const Container = styled.div<Props>`
   z-index: 99999;
 `;
 
-export const Content = styled.div`
+interface PropsContent {
+  confirm: boolean;
+}
+
+export const Content = styled.div<PropsContent>`
   background: ${(props) => props.theme.background};
   min-width: 300px;
   padding: 15px;
@@ -60,4 +63,20 @@ export const Content = styled.div`
     justify-content: space-between;
     margin-top: 15px;
   }
+
+  ${(props) =>
+    props.confirm &&
+    css`
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99999;
+        border-radius: 5px;
+      }
+    `}
 `;
