@@ -83,6 +83,8 @@ const AuthProvider: React.FC = ({ children }) => {
         if (error.response.status === 401 && data.token) {
           signOut();
         }
+
+        return Promise.reject(error);
       },
     );
   }, [data, signOut]);
