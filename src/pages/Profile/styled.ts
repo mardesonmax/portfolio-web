@@ -25,15 +25,11 @@ export const Content = styled.div`
 
   form {
     animation: ${animeTop} 0.5s;
-    margin: 15px 0;
 
     > div {
       display: flex;
       justify-content: flex-end;
-
-      button {
-        margin: 15px 0;
-      }
+      margin: 15px 0;
     }
   }
 `;

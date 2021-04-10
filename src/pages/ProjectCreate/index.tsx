@@ -18,7 +18,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import Checkbox from '../../components/Checkbox';
 import ButtonLink from '../../components/ButtonLink';
-import Loading from '../../components/Loading';
+import LoadingSubmit from '../../components/LoadingSubmit';
 
 interface FormData {
   title: string;
@@ -35,7 +35,8 @@ const ProjectCreate: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [previews, setPreviews] = useState<File[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
   const handleUploadFile = useCallback(
     async (filesData: FileWithPath[], proj_id: string) => {
       const data = new FormData();
@@ -51,7 +52,6 @@ const ProjectCreate: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: FormData) => {
       try {
-        setLoading(true);
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
           title: Yup.string().required('Título é obrigatório'),
@@ -62,6 +62,7 @@ const ProjectCreate: React.FC = () => {
           abortEarly: false,
         });
 
+        setLoadingSubmit(true);
         const project = await api.post('/projects', data);
 
         if (files.length > 0) {
@@ -71,23 +72,27 @@ const ProjectCreate: React.FC = () => {
         toast('Projeto cadastrado com sucesso.', {
           type: 'success',
         });
-        setLoading(false);
 
         history.push('/projects');
       } catch (err) {
-        setLoading(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
           return;
         }
 
-        toast(
-          'Erro ao tentar logar, verifique as credenciais e tente novamente.',
-          {
+        if (err.response.status === 400) {
+          toast('Algo saiu errado, talvez o título já esteja em uso.', {
             type: 'error',
-          },
-        );
+          });
+          return;
+        }
+
+        toast('Algo saiu errado, tente novamente.', {
+          type: 'error',
+        });
+      } finally {
+        setLoadingSubmit(false);
       }
     },
     [files, handleUploadFile, history],
@@ -110,7 +115,6 @@ const ProjectCreate: React.FC = () => {
 
   return (
     <Container>
-      {loading && <Loading />}
       <Content>
         <PageHeader title="Adicionar Projeto">
           <ButtonLink to="/projects">
@@ -134,7 +138,11 @@ const ProjectCreate: React.FC = () => {
           />
 
           <div className="submit-button">
-            <Button type="submit">Concluir</Button>
+            {loadingSubmit ? (
+              <LoadingSubmit />
+            ) : (
+              <Button type="submit">Concluir</Button>
+            )}
           </div>
         </Form>
       </Content>

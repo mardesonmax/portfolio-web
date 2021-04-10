@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 200px);
   justify-content: center;
   align-items: center;
+  text-align: center;
 
   div.error {
     margin: 15px;

@@ -1,15 +1,9 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
-import {
-  FiInfo,
-  FiLock,
-  FiMail,
-  FiPower,
-  FiTablet,
-  FiUser,
-} from 'react-icons/fi';
+import { FiLock, FiMail, FiPower, FiTablet, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import PageHeader from '../../components/PageHeader';
 
@@ -19,20 +13,48 @@ import Button from '../../components/Button';
 import ButtonLink from '../../components/ButtonLink';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import LoadingSubmit from '../../components/LoadingSubmit';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 const Profile: React.FC = () => {
   const { user, updateUser, signOut } = useAuth();
   const formRef = useRef<FormHandles>(null);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const handleSubmit = useCallback(
     async (data) => {
-      const response = await api.post('/users', data);
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string().email('Email inválido'),
+        });
 
-      updateUser(response.data);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      toast('Perfil atualizado com sucesso.', {
-        type: 'success',
-      });
+        setLoadingSubmit(true);
+        const response = await api.post('/users', data);
+
+        updateUser(response.data);
+
+        toast('Perfil atualizado com sucesso.', {
+          type: 'success',
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+          return;
+        }
+
+        toast('Algo saiu errado, tente novamente.', {
+          type: 'error',
+        });
+      } finally {
+        setLoadingSubmit(false);
+      }
     },
     [updateUser],
   );
@@ -44,10 +66,6 @@ const Profile: React.FC = () => {
           <div>
             <ButtonLink to="/profile/contact">
               <FiTablet /> <span>Contatos</span>
-            </ButtonLink>
-
-            <ButtonLink to="/profile/about">
-              <FiInfo /> <span>Sobre mim</span>
             </ButtonLink>
 
             <Button bgColor="secondary" onClick={() => signOut()}>
@@ -74,10 +92,14 @@ const Profile: React.FC = () => {
             icon={FiLock}
             type="password"
             name="password"
-            placeholder="Senha"
+            placeholder="Nova senha"
           />
           <div>
-            <Button type="submit">Concluir</Button>
+            {loadingSubmit ? (
+              <LoadingSubmit />
+            ) : (
+              <Button type="submit">Concluir</Button>
+            )}
           </div>
         </Form>
       </Content>

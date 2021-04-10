@@ -29,11 +29,11 @@ export const Content = styled.div`
     .submit-button {
       display: flex;
       justify-content: flex-end;
+      margin: 15px 0;
 
       button {
         width: auto;
         margin: 0;
-        margin: 15px 0;
       }
     }
   }

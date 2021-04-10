@@ -21,6 +21,7 @@ import ButtonLink from '../../components/ButtonLink';
 import { Container, Content } from './styled';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
+import LoadingSubmit from '../../components/LoadingSubmit';
 
 interface FormData {
   title: string;
@@ -58,6 +59,7 @@ const ProjectUpdate: React.FC = () => {
   const [previews, setPreviews] = useState<File[]>([]);
   const [project, setProject] = useState<Project>({} as Project);
   const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -98,7 +100,6 @@ const ProjectUpdate: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: FormData) => {
       try {
-        setLoading(true);
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
           title: Yup.string().required('Título é obrigatório'),
@@ -109,6 +110,7 @@ const ProjectUpdate: React.FC = () => {
           abortEarly: false,
         });
 
+        setLoadingSubmit(true);
         const upProject = await api.post(`/projects/${project.id}`, data);
 
         if (files.length > 0) {
@@ -133,11 +135,18 @@ const ProjectUpdate: React.FC = () => {
           return;
         }
 
+        if (err.response.status === 400) {
+          toast('Algo saiu errado, talvez o título já esteja em uso.', {
+            type: 'error',
+          });
+          return;
+        }
+
         toast('Erro ao tentar atualizar informações do projeto!', {
           type: 'error',
         });
       } finally {
-        setLoading(false);
+        setLoadingSubmit(false);
       }
     },
     [files, handleUploadFile, project, history],
@@ -207,7 +216,11 @@ const ProjectUpdate: React.FC = () => {
               />
 
               <div className="submit-button">
-                <Button type="submit">Concluir</Button>
+                {loadingSubmit ? (
+                  <LoadingSubmit />
+                ) : (
+                  <Button type="submit">Concluir</Button>
+                )}
               </div>
             </Form>
           </>

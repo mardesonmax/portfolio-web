@@ -30,10 +30,7 @@ export const Content = styled.div`
     > div {
       display: flex;
       justify-content: flex-end;
-
-      button {
-        margin: 15px 0;
-      }
+      margin: 15px 0;
     }
   }
 `;
