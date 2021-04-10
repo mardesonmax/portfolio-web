@@ -19,7 +19,7 @@ const Routes: React.FC = () => {
       <Route path="/" exact isLogged component={SignIn} />
       <Route path="/profile" exact isPrivate component={Profile} />
       <Route path="/profile/contact" isPrivate component={Contact} />
-      <Route path="/profile/about" isPrivate component={About} />
+      <Route path="/about" component={About} />
       <Route path="/projects" exact component={Projects} />
       <Route path="/projects/create" isPrivate component={ProjectCreate} />
       <Route path="/projects/view/:base_url" component={ProjectView} />
