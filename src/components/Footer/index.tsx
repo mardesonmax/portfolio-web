@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
     <Container>
       <Content>
         <p>
-          Desenvolvido com ❤️ por
+          Desenvolvido com <span>❤️</span> por
           <a
             href="https://www.facebook.com/mardeson.pereira.7"
             target="_blank"

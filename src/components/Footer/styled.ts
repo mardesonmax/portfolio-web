@@ -23,5 +23,10 @@ export const Content = styled.div`
         color: ${(props) => props.theme.primary};
       }
     }
+
+    span {
+      margin: 0 5px;
+      font-size: 16px;
+    }
   }
 `;
