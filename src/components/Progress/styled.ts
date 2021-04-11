@@ -23,7 +23,7 @@ export const Container = styled.div<Progress>`
       const deg = 90 + 3.6 * props.progress;
       const position = props.progress < 51 ? 'right' : 'left';
       const color =
-        props.progress < 51 ? props.theme.default : props.theme.primary;
+        props.progress < 51 ? props.theme.background : props.theme.primary;
 
       return css`
         background: linear-gradient(
@@ -34,7 +34,7 @@ export const Container = styled.div<Progress>`
           linear-gradient(
             ${deg}deg,
             ${props.theme.primary} 50%,
-            ${props.theme.default} 50%
+            ${props.theme.background} 50%
           );
       `;
     }}
