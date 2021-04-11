@@ -36,6 +36,11 @@ export const Container = styled.div<Props>`
         margin: 15px 0;
         padding: 15px;
         background: ${props.theme.background};
+
+        > div {
+          margin: 0;
+          margin-top: 15px;
+        }
       }
     `}
 `;
