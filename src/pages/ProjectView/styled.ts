@@ -34,7 +34,7 @@ export const ProjectContainer = styled.div`
     h4 {
       margin-top: 15px;
       font-size: 12px;
-      color: ${(props) => props.theme.default};
+      color: ${(props) => props.theme.primary};
     }
 
     p {

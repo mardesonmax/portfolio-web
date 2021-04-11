@@ -33,26 +33,40 @@ interface Params {
 const ProjectView: React.FC = () => {
   const params = useParams<Params>();
   const [project, setProject] = useState<Project>({} as Project);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isCanceled = false;
     (async () => {
       try {
-        setLoading(true);
         const response = await api.get(`/projects/${params.base_url}`);
-        setProject(response.data);
-        setLoading(false);
+        if (!isCanceled) {
+          setProject(response.data);
+          setLoading(false);
+        }
       } catch {
-        setLoading(false);
+        if (!isCanceled) {
+          setLoading(false);
+        }
       }
     })();
+
+    return () => {
+      isCanceled = true;
+    };
   }, [params]);
 
   return (
     <Container>
       {loading && <Loading />}
       <Content>
-        {project.id ? (
+        {!project.id && !loading && (
+          <NotFound
+            title="Esta Página não está disponível"
+            description="O link pode não esta funcionando ou o Projeto foi removido"
+          />
+        )}
+        {project.id && (
           <ProjectContainer>
             <PageHeader title={project.title}>
               <ButtonLink to="/projects">
@@ -95,13 +109,6 @@ const ProjectView: React.FC = () => {
               <img src={project.image.url} alt={project.title} />
             )}
           </ProjectContainer>
-        ) : (
-          !loading && (
-            <NotFound
-              title="Esta Página não está disponível"
-              description="O link pode não esta funcionando ou o Projeto foi removido"
-            />
-          )
         )}
       </Content>
     </Container>
