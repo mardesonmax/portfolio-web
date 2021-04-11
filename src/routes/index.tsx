@@ -5,8 +5,9 @@ import Route from './Route';
 
 import SignIn from '../pages/SignIn';
 import Profile from '../pages/Profile';
-import Contact from '../pages/Contact';
 import About from '../pages/About';
+import Contact from '../pages/Contact';
+import AboutView from '../pages/AboutView';
 import Projects from '../pages/Projects';
 import ProjectCreate from '../pages/ProjectCreate';
 import ProjectUpdate from '../pages/ProjectUpdate';
@@ -19,7 +20,8 @@ const Routes: React.FC = () => {
       <Route path="/" exact isLogged component={SignIn} />
       <Route path="/profile" exact isPrivate component={Profile} />
       <Route path="/profile/contact" isPrivate component={Contact} />
-      <Route path="/about" component={About} />
+      <Route path="/profile/about" exact isPrivate component={About} />
+      <Route path="/about" component={AboutView} />
       <Route path="/projects" exact component={Projects} />
       <Route path="/projects/create" isPrivate component={ProjectCreate} />
       <Route path="/projects/view/:base_url" component={ProjectView} />
