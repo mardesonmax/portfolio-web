@@ -17,7 +17,7 @@ import Error404 from '../pages/Error404';
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact isLogged component={SignIn} />
+      <Route path="/" exact component={Projects} />
       <Route path="/profile" exact isPrivate component={Profile} />
       <Route path="/profile/contact" isPrivate component={Contact} />
       <Route path="/profile/about" exact isPrivate component={About} />
@@ -29,6 +29,11 @@ const Routes: React.FC = () => {
         path="/projects/edit/:base_url"
         isPrivate
         component={ProjectUpdate}
+      />
+      <Route
+        path={process.env.REACT_APP_ROUTER_LOGIN}
+        isLogged
+        component={SignIn}
       />
       <Route path="*" component={Error404} />
     </Switch>
