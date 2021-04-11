@@ -54,7 +54,7 @@ const AboutView: React.FC = () => {
     <>
       <Banner
         title="SOBRE MIM"
-        subTitle="Olá seja bem-vindo, abaixo tem algumas informações sobre mim."
+        subTitle="Olá, seja bem-vindo! Abaixo cotém algumas informações sobre mim."
       />
       <Container>
         {loading && <Loading />}

@@ -22,7 +22,7 @@ const themes = {
     container: '#252525',
     banner: '#313131',
     background: '#181818',
-    boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.08)',
+    boxShadow: '0 2px 4px 0px rgba(0, 0, 0, 0.4)',
   },
 };
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FiChevronLeft } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 
-import ButtonLink from '../../components/ButtonLink';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
 import PageHeader from '../../components/PageHeader';

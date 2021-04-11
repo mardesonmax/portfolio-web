@@ -1,13 +1,22 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 interface Props {
   scrollTop: number;
   height: number;
 }
 
+const animeTop = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
 export const Container = styled.header<Props>`
   width: 100%;
-  top: ${(props) => -props.height}px;
   padding: 0 15px;
   z-index: 9999;
   min-height: 60px;
@@ -16,9 +25,10 @@ export const Container = styled.header<Props>`
   ${(props) =>
     props.scrollTop > props.height &&
     css`
+      transition: 0.5s ease all;
       box-shadow: ${props.theme.boxShadow};
       position: sticky;
-      transition: 0.5s ease all;
+      top: ${-props.height}px;
       transform: translateY(${props.height}px);
     `}
 

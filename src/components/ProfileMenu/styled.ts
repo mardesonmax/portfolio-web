@@ -10,7 +10,7 @@ export const Container = styled.nav`
   flex-direction: column;
   align-self: flex-start;
   padding: 15px;
-  margin-right: 20px;
+  margin-right: 15px;
   border-radius: 5px;
   min-height: calc(100vh - 100px);
 

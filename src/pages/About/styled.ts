@@ -34,7 +34,7 @@ export const AboutContact = styled.div`
   align-self: flex-start;
 
   .abouts {
-    margin-top: 20px;
+    margin-top: 15px;
     background: ${(props) => props.theme.container};
     box-shadow: ${(props) => props.theme.boxShadow};
     animation: ${animeBottom} 1s ease;
