@@ -24,7 +24,6 @@ const animeTop = keyframes`
 export const Container = styled.div`
   position: fixed;
   z-index: 9999;
-  background: ${(props) => transparentize(0.0, props.theme.background)};
   top: 0;
   margin-top: 100px;
   width: 64px;
@@ -38,10 +37,11 @@ export const Container = styled.div`
   animation: ${animeTop} 0.5s;
 
   .loading {
+    background: ${(props) => transparentize(0.0, props.theme.background)};
     display: inline-block;
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     box-shadow: ${(props) => props.theme.boxShadow};
 
@@ -50,10 +50,10 @@ export const Container = styled.div`
       box-sizing: border-box;
       display: block;
       position: absolute;
-      width: 50px;
-      height: 50px;
-      margin: 5px;
-      border: 8px solid ${(props) => props.theme.primary};
+      width: 44px;
+      height: 44px;
+      margin: 3px;
+      border: 4px solid ${(props) => props.theme.primary};
       border-radius: 50%;
       animation: ${animeRotate} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
       border-color: ${(props) => props.theme.primary} transparent transparent
