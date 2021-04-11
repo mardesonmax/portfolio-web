@@ -5,9 +5,9 @@ import { Props } from './index';
 
 const backgroundButton = {
   default: css`
-    background: ${(props) => props.theme.default};
+    background: ${(props) => props.theme.primary};
     &:hover {
-      background: ${(props) => shade(0.2, props.theme.default)};
+      background: ${(props) => shade(0.2, props.theme.primary)};
     }
   `,
   primary: css`
