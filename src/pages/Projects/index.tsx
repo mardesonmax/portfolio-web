@@ -5,15 +5,16 @@ import { toast } from 'react-toastify';
 import ButtonLink from '../../components/ButtonLink';
 import Loading from '../../components/Loading';
 import Modal from '../../components/Modal';
-import PageHeader from '../../components/PageHeader';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import { Container, Content } from './styled';
 
 import ProjectItem, { IProject } from '../../components/ProjectItem';
+import Banner from '../../components/Banner';
 
 const Projects: React.FC = () => {
+  const { user } = useAuth();
   const [projects, setProjects] = useState<IProject[]>([]);
   const [projectRemoved, setProjectRemoved] = useState<IProject>(
     {} as IProject,
@@ -21,17 +22,23 @@ const Projects: React.FC = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [modalActive, setModalActive] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
 
   useEffect(() => {
+    let isCanceled = false;
     (async () => {
       setLoading(true);
       const response = user
         ? await api.get('/projects?admin=active')
         : await api.get('/projects');
-      setProjects(response.data);
-      setLoading(false);
+      if (!isCanceled) {
+        setProjects(response.data);
+        setLoading(false);
+      }
     })();
+
+    return () => {
+      isCanceled = true;
+    };
   }, [user]);
 
   useEffect(() => {
@@ -57,40 +64,48 @@ const Projects: React.FC = () => {
   }, [confirmDelete, projectRemoved]);
 
   return (
-    <Container>
-      {loading && <Loading />}
-      <Content>
-        <Modal
-          title={`Deletar ${projectRemoved.title}`}
-          description="Deseja realmente apagar esse projeto?"
-          active={modalActive}
-          setProps={{ setConfirmDelete, setModalActive }}
-        />
-        <PageHeader title="Projetos">
-          {user && (
-            <ButtonLink bgColor="primary" to="/projects/create">
-              <FiSend />
-              <span>Novo Projeto</span>
-            </ButtonLink>
-          )}
-        </PageHeader>
+    <>
+      <Banner
+        title="PORTFÓLIO"
+        subTitle="Abaixo estão alguns dos meus projetos."
+      />
+      <Container>
+        {loading && <Loading />}
 
-        {projects && (
-          <div>
-            {projects.map((project, index) => (
-              <ProjectItem
-                user={!!user}
-                key={project.id}
-                index={index}
-                project={project}
-                setModalActive={setModalActive}
-                setProjectRemoved={setProjectRemoved}
-              />
-            ))}
-          </div>
-        )}
-      </Content>
-    </Container>
+        <Content>
+          <Modal
+            title={`Deletar ${projectRemoved.title}`}
+            description="Deseja realmente apagar esse projeto?"
+            active={modalActive}
+            setProps={{ setConfirmDelete, setModalActive }}
+          />
+
+          {user && (
+            <div className="add-project">
+              <ButtonLink bgColor="primary" to="/projects/create">
+                <FiSend />
+                <span>Novo Projeto</span>
+              </ButtonLink>
+            </div>
+          )}
+
+          {projects && (
+            <div>
+              {projects.map((project, index) => (
+                <ProjectItem
+                  user={!!user}
+                  key={project.id}
+                  index={index}
+                  project={project}
+                  setModalActive={setModalActive}
+                  setProjectRemoved={setProjectRemoved}
+                />
+              ))}
+            </div>
+          )}
+        </Content>
+      </Container>
+    </>
   );
 };
 

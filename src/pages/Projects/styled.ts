@@ -6,8 +6,14 @@ export const Container = styled.section`
 `;
 
 export const Content = styled.div`
-  margin: 15px;
+  margin: 20px;
   width: 100%;
   max-width: 1200px;
   border-radius: 5px;
+
+  .add-project {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
 `;
