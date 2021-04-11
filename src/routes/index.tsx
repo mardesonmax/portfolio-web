@@ -7,6 +7,7 @@ import SignIn from '../pages/SignIn';
 import Profile from '../pages/Profile';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
+import ContactView from '../pages/ContactView';
 import AboutView from '../pages/AboutView';
 import Projects from '../pages/Projects';
 import ProjectCreate from '../pages/ProjectCreate';
@@ -30,6 +31,7 @@ const Routes: React.FC = () => {
         isPrivate
         component={ProjectUpdate}
       />
+      <Route path="/contact" component={ContactView} />
       <Route
         path={process.env.REACT_APP_ROUTER_LOGIN}
         isLogged
