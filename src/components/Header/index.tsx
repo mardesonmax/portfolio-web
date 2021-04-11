@@ -6,13 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  FiCode,
-  FiToggleRight,
-  FiToggleLeft,
-  FiUser,
-  FiSmartphone,
-} from 'react-icons/fi';
+import { FiCode, FiUser, FiSmartphone, FiSun, FiMoon } from 'react-icons/fi';
 
 import { Link, NavLink } from 'react-router-dom';
 import { Container } from './styled';
@@ -75,14 +69,14 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
           <li>
             <NavLink to="/projects">
               <FiCode />
-              <span>Projetos</span>
+              <span>Portfólio</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/about">
               <FiUser />
-              <span>Sobre min</span>
+              <span>Sobre mim</span>
             </NavLink>
           </li>
 
@@ -99,9 +93,7 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
               type="button"
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             >
-              <span>Light</span>
-              {theme === 'light' ? <FiToggleLeft /> : <FiToggleRight />}
-              <span>Dark</span>
+              {theme === 'light' ? <FiMoon /> : <FiSun className="sun" />}
             </button>
           </li>
         </ul>

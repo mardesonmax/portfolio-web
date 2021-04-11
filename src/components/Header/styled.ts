@@ -16,7 +16,7 @@ export const Container = styled.header<Props>`
   ${(props) =>
     props.scrollTop > props.height &&
     css`
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: ${props.theme.boxShadow};
       position: sticky;
       transition: 0.5s ease all;
       transform: translateY(${props.height}px);
@@ -60,9 +60,10 @@ export const Container = styled.header<Props>`
           display: flex;
           justify-content: center;
           align-items: center;
+          height: 40px;
           padding: 5px 8px;
           text-decoration: none;
-          color: ${(props) => props.theme.primary};
+          color: ${(props) => props.theme.textDark};
           position: relative;
           border-radius: 5px;
           transition: 0.2s ease all;
@@ -79,26 +80,25 @@ export const Container = styled.header<Props>`
             content: '';
             transition-delay: 1s ease all;
             position: absolute;
-            bottom: 0;
+            bottom: -3px;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: ${(props) => props.theme.default};
+            height: 3px;
+            border-radius: 3px;
+            background: ${(props) => props.theme.primary};
           }
         }
 
         a {
-          color: ${(props) => props.theme.default};
-
           &:hover {
             color: ${(props) => props.theme.textLight};
-            background: ${(props) => props.theme.default};
+            background: ${(props) => props.theme.primary};
           }
 
           &.active,
           &.active:hover {
             background: none;
-            color: ${(props) => props.theme.default};
+            color: ${(props) => props.theme.primary};
           }
         }
 
@@ -106,15 +106,12 @@ export const Container = styled.header<Props>`
           border: none;
           background: none;
 
-          &:hover {
-            color: ${(props) => props.theme.textLight};
-            background: ${(props) => props.theme.primary};
+          .sun {
+            color: yellow;
           }
-        }
 
-        button.theme {
-          svg {
-            margin: 0 8px;
+          &:hover {
+            transform: scale(1.2);
           }
         }
       }
