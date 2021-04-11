@@ -1,35 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import { FiPlus } from 'react-icons/fi';
 import * as Yup from 'yup';
 
+import { FiPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import {
-  FaEnvelope,
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaWhatsapp,
-} from 'react-icons/fa';
 import PageHeader from '../../components/PageHeader';
 
-import Input from '../../components/Input';
+import { Container, Content, AboutContact } from './styled';
 import Button from '../../components/Button';
-import Textarea from '../../components/Textarea';
+
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
+import ProfileMenu from '../../components/ProfileMenu';
 import Modal from '../../components/Modal';
 import Loading from '../../components/Loading';
-import { useAuth } from '../../hooks/auth';
-
-import { Container, Content, AboutContact, AboutProfile } from './styled';
-
-import ProfileJPEG from '../../assets/profile.jpeg';
-import Progress from '../../components/Progress';
-import LoadingSubmit from '../../components/LoadingSubmit';
+import AboutContent from '../../components/AboutContent';
+import AboutForm from '../../components/AboutForm';
 
 interface IAbout {
   id: string;
@@ -38,29 +24,38 @@ interface IAbout {
 }
 
 const About: React.FC = () => {
-  const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
-  const [abouts, setAbouts] = useState<IAbout[]>([]);
-  const [aboutEdit, setAboutEdit] = useState('');
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [aboutPlus, setAboutPlus] = useState(false);
+  const [abouts, setAbouts] = useState<IAbout[]>([]);
   const [aboutRemoved, setAboutRemoved] = useState<IAbout>({} as IAbout);
   const [modalActive, setModalActive] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [aboutEdit, setAboutEdit] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
+    let isCanceled = false;
     (async () => {
       try {
         setLoading(true);
         const response = await api.get('/abouts');
-        setAbouts(response.data);
-        setLoading(false);
+
+        if (!isCanceled) {
+          setAbouts(response.data);
+          setLoading(false);
+        }
       } catch {
-        setLoading(false);
+        if (!isCanceled) {
+          setLoading(false);
+        }
       }
     })();
-  }, []);
+
+    return () => {
+      isCanceled = true;
+    };
+  }, [setAbouts]);
 
   const handleSubmit = useCallback(
     async (data) => {
@@ -126,28 +121,6 @@ const About: React.FC = () => {
     [aboutEdit],
   );
 
-  const handleDelete = useCallback(
-    (about: IAbout) => {
-      setAboutRemoved(about);
-      setModalActive(true);
-    },
-    [setAboutRemoved, setModalActive],
-  );
-
-  const handleAbort = useCallback(() => {
-    setAboutEdit('');
-  }, []);
-
-  const handleAboutEdit = useCallback((id: string) => {
-    setAboutPlus(false);
-    setAboutEdit(id);
-  }, []);
-
-  const handleAbortPlus = useCallback(() => {
-    setAboutPlus(true);
-    setAboutEdit('');
-  }, []);
-
   useEffect(() => {
     (async () => {
       if (confirmDelete && aboutRemoved.id) {
@@ -170,9 +143,33 @@ const About: React.FC = () => {
     })();
   }, [aboutRemoved, confirmDelete]);
 
+  const handleDelete = useCallback(
+    (about: IAbout) => {
+      setAboutRemoved(about);
+      setModalActive(true);
+    },
+    [setAboutRemoved, setModalActive],
+  );
+
+  const handleAbort = useCallback(() => {
+    setAboutPlus(false);
+    setAboutEdit('');
+  }, []);
+
+  const handleAbortPlus = useCallback(() => {
+    setAboutPlus(true);
+    setAboutEdit('');
+  }, []);
+
+  const handleAbortEdit = useCallback((id: string) => {
+    setAboutEdit(id);
+    setAboutPlus(false);
+  }, []);
+
   return (
     <Container>
       {loading && <Loading />}
+
       <Modal
         title={`Deletar ${aboutRemoved.title}`}
         description="Deseja realmente apagar essa informação?"
@@ -181,154 +178,49 @@ const About: React.FC = () => {
       />
 
       <Content>
-        <PageHeader title="Sobre mim" />
-
-        <AboutProfile>
-          <div className="profile">
-            <div className="image">
-              <img src={ProfileJPEG} alt="Mardeson Pereira" />
+        <ProfileMenu />
+        <div>
+          <PageHeader title="Sobre mim">
+            <div>
+              <Button onClick={handleAbortPlus}>
+                <FiPlus /> Adicionar
+              </Button>
             </div>
+          </PageHeader>
 
-            <div className="contacts">
-              <h2>Contatos</h2>
-              <div>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaFacebook />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaInstagram />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaWhatsapp />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaLinkedin />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaGithub />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaTwitter />
-                  </span>
-                </a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">
-                  <span>
-                    <FaEnvelope />
-                  </span>
-                </a>
-              </div>
-            </div>
-
-            <div className="skills">
-              <h2>Habilidades</h2>
-              <div>
-                <Progress value={75} skill="JavaScript" />
-                <Progress value={65} skill="ReactJs" />
-                <Progress value={65} skill="NodeJs" />
-                <Progress value={60} skill="Docker" />
-                <Progress value={70} skill="SQL" />
-                <Progress value={95} skill="HTML" />
-                <Progress value={90} skill="CSS" />
-              </div>
-            </div>
-          </div>
+          {aboutPlus && (
+            <AboutForm
+              handleAbort={handleAbort}
+              handleSubmit={handleSubmit}
+              loadingSubmit={loadingSubmit}
+            />
+          )}
 
           <AboutContact>
-            {aboutPlus ? (
-              <Form ref={formRef} onSubmit={handleSubmit}>
-                <Input label="Título" name="title" />
-                <Textarea label="Descrição" name="description" />
-                <div>
-                  <Button
-                    type="button"
-                    bgColor="primary"
-                    onClick={() => setAboutPlus(false)}
-                  >
-                    Cancelar
-                  </Button>
-
-                  {loadingSubmit ? (
-                    <LoadingSubmit />
+            {abouts.length > 0 && (
+              <div className="abouts">
+                {abouts.map((about) =>
+                  about.id === aboutEdit ? (
+                    <AboutForm
+                      key={about.id}
+                      handleAbort={handleAbort}
+                      handleSubmit={handleSubmit}
+                      loadingSubmit={loadingSubmit}
+                      about={about}
+                    />
                   ) : (
-                    <Button type="submit">Enviar</Button>
-                  )}
-                </div>
-              </Form>
-            ) : (
-              user && (
-                <div className="new">
-                  <Button onClick={handleAbortPlus}>
-                    <FiPlus />
-                    <span>Adicionar</span>
-                  </Button>
-                </div>
-              )
+                    <AboutContent
+                      key={about.id}
+                      about={about}
+                      handleDelete={handleDelete}
+                      handleAboutEdit={handleAbortEdit}
+                    />
+                  ),
+                )}
+              </div>
             )}
-
-            {abouts &&
-              abouts.map((about) =>
-                about.id === aboutEdit ? (
-                  <Form key={about.id} ref={formRef} onSubmit={handleSubmit}>
-                    <Input
-                      label="Título"
-                      name="title"
-                      defaultValue={about.title}
-                    />
-                    <Textarea
-                      label="Descrição"
-                      name="description"
-                      defaultValue={about.description}
-                    />
-
-                    <div>
-                      <Button
-                        bgColor="primary"
-                        type="button"
-                        onClick={handleAbort}
-                      >
-                        Cancelar
-                      </Button>
-                      {loadingSubmit ? (
-                        <LoadingSubmit />
-                      ) : (
-                        <Button type="submit">Concluir</Button>
-                      )}
-                    </div>
-                  </Form>
-                ) : (
-                  <div key={about.id} className="item">
-                    <h2>{about.title}</h2>
-                    <p>{about.description}</p>
-
-                    {user && (
-                      <div>
-                        <Button onClick={() => handleAboutEdit(about.id)}>
-                          Editar
-                        </Button>
-                        <Button
-                          onClick={() => handleDelete(about)}
-                          bgColor="secondary"
-                        >
-                          Excluir
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ),
-              )}
           </AboutContact>
-        </AboutProfile>
+        </div>
       </Content>
     </Container>
   );
