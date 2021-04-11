@@ -68,12 +68,7 @@ const ProjectView: React.FC = () => {
         )}
         {project.id && (
           <ProjectContainer>
-            <PageHeader title={project.title}>
-              <ButtonLink to="/projects">
-                <FiChevronLeft />
-                <span>Voltar</span>
-              </ButtonLink>
-            </PageHeader>
+            <PageHeader title={project.title} />
             <div className="info">
               <h4>DATA</h4>
               <p>{formatDate(project.created_at)}</p>
