@@ -10,9 +10,10 @@ export const Container = styled.div`
   position: relative;
   box-shadow: ${(props) => props.theme.boxShadow};
   background: ${(props) => props.theme.container};
+  z-index: 999;
 
   h1 {
-    color: ${(props) => props.theme.default};
+    color: ${(props) => props.theme.primary};
     font-weight: bold;
     font-size: 25px;
   }
