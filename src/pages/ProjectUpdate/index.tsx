@@ -58,13 +58,13 @@ const ProjectUpdate: React.FC = () => {
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [previews, setPreviews] = useState<File[]>([]);
   const [project, setProject] = useState<Project>({} as Project);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
+    let isCanceled = false;
     (async () => {
       try {
-        setLoading(true);
         const response = await api.get(
           `/projects/${params.base_url}?admin=active`,
         );
@@ -73,13 +73,21 @@ const ProjectUpdate: React.FC = () => {
           setPreviews([response.data.image]);
         }
 
-        setProject(response.data);
-        setLoading(false);
+        if (!isCanceled) {
+          setProject(response.data);
+          setLoading(false);
+        }
       } catch {
-        setLoading(false);
+        if (!isCanceled) {
+          setLoading(false);
+        }
       }
     })();
     window.scrollTo(0, 0);
+
+    return () => {
+      isCanceled = true;
+    };
   }, [params]);
 
   const handleUploadFile = useCallback(
