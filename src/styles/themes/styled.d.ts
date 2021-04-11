@@ -4,7 +4,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     primary: string;
     secondary: string;
-    default: string;
+    banner: string;
     textDark: string;
     textLight: string;
     error: string;
