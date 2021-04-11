@@ -52,4 +52,22 @@ export const Container = styled.nav`
       }
     }
   }
+
+  > button {
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${(props) => props.theme.secondary};
+    transition: 0.3s ease all;
+    padding: 5px;
+    span {
+      margin-left: 5px;
+    }
+
+    &:hover {
+      background: ${(props) => props.theme.background};
+    }
+  }
 `;
