@@ -55,7 +55,7 @@ const About: React.FC = () => {
     return () => {
       isCanceled = true;
     };
-  }, [setAbouts]);
+  }, []);
 
   const handleSubmit = useCallback(
     async (data) => {

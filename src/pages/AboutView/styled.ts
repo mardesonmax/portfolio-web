@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 const animeLeft = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(-100px);
   }
 
   100% {
@@ -12,15 +12,25 @@ const animeLeft = keyframes`
   }
 `;
 
-const animeTop = keyframes`
+const animeRight = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(100px);
+    transform: translateX(100px);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
+  }
+`;
+
+const anime = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 `;
 
@@ -39,9 +49,9 @@ export const Content = styled.div`
 export const AboutProfile = styled.div`
   display: flex;
   flex-wrap: wrap;
-  animation: ${animeTop} 1s ease;
 
   .profile {
+    animation: ${animeLeft} 1s ease;
     max-width: 350px;
     flex: 350px;
     margin: 20px 20px 0 0;
@@ -77,6 +87,7 @@ export const AboutProfile = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
+      animation: ${anime} 1s ease;
 
       h2 {
         margin-top: 10px;
@@ -152,31 +163,11 @@ export const AboutContact = styled.div`
   flex: 1;
   align-self: flex-start;
 
-  .new {
-    margin-top: 15px;
-  }
-
-  form {
-    animation: ${animeLeft} 0.5s;
-    border-radius: 5px;
-    margin: 15px 0;
-
-    label {
-      width: auto;
-    }
-
-    > div {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
-  }
-
   .abouts {
     margin-top: 20px;
     background: ${(props) => props.theme.container};
     box-shadow: ${(props) => props.theme.boxShadow};
-    animation: ${animeTop} 1s ease;
+    animation: ${animeRight} 1s ease;
     border-radius: 5px;
     padding: 10px;
 
@@ -185,8 +176,5 @@ export const AboutContact = styled.div`
       padding: 15px;
       background: ${(props) => props.theme.background};
     }
-  }
-
-  @media (max-width: 768px) {
   }
 `;

@@ -15,7 +15,7 @@ import Loading from '../../components/Loading';
 import LoadingSubmit from '../../components/LoadingSubmit';
 import ProfileMenu from '../../components/ProfileMenu';
 
-interface Contact {
+export interface Contact {
   id?: string;
   facebook?: string;
   twitter?: string;

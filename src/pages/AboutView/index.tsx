@@ -14,6 +14,7 @@ import api from '../../services/api';
 import Loading from '../../components/Loading';
 
 import { Container, Content, AboutContact, AboutProfile } from './styled';
+import { Contact } from '../Contact';
 
 import ProfileJPEG from '../../assets/profile.jpeg';
 import Progress from '../../components/Progress';
@@ -28,7 +29,7 @@ interface IAbout {
 
 const AboutView: React.FC = () => {
   const [abouts, setAbouts] = useState<IAbout[]>([]);
-
+  const [contacts, setContacts] = useState<Contact>({} as Contact);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -36,10 +37,14 @@ const AboutView: React.FC = () => {
     (async () => {
       try {
         setLoading(true);
-        const response = await api.get('/abouts');
+        const [responseAbouts, responseContacts] = await Promise.all([
+          api.get('/abouts'),
+          api.get('contacts'),
+        ]);
 
         if (!isCanceled) {
-          setAbouts(response.data);
+          setAbouts(responseAbouts.data);
+          setContacts(responseContacts.data);
           setLoading(false);
         }
       } catch {
@@ -65,65 +70,115 @@ const AboutView: React.FC = () => {
 
         <Content>
           <AboutProfile>
-            <div className="profile">
-              <div className="image">
-                <img src={ProfileJPEG} alt="Mardeson Pereira" />
-              </div>
+            {contacts.id && (
+              <div className="profile">
+                <div className="image">
+                  <img src={ProfileJPEG} alt="Mardeson Pereira" />
+                </div>
 
-              <div className="contacts">
-                <h2>Contatos</h2>
-                <div>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaFacebook />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaInstagram />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaWhatsapp />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaLinkedin />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaGithub />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaTwitter />
-                    </span>
-                  </a>
-                  <a href="http://" target="_blank" rel="noopener noreferrer">
-                    <span>
-                      <FaEnvelope />
-                    </span>
-                  </a>
+                <div className="contacts">
+                  <h2>Contatos</h2>
+                  <div>
+                    {contacts.facebook && (
+                      <a
+                        href={contacts.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaFacebook />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.instagram && (
+                      <a
+                        href={contacts.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaInstagram />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.whatsapp && (
+                      <a
+                        href={contacts.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaWhatsapp />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.linkedin && (
+                      <a
+                        href={contacts.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaLinkedin />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.github && (
+                      <a
+                        href={contacts.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaGithub />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.twitter && (
+                      <a
+                        href={contacts.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaTwitter />
+                        </span>
+                      </a>
+                    )}
+
+                    {contacts.email && (
+                      <a
+                        href={`mailton:${contacts.email}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>
+                          <FaEnvelope />
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                <div className="skills">
+                  <h2>Habilidades</h2>
+                  <div>
+                    <Progress value={75} skill="JavaScript" />
+                    <Progress value={65} skill="ReactJs" />
+                    <Progress value={65} skill="NodeJs" />
+                    <Progress value={60} skill="Docker" />
+                    <Progress value={70} skill="SQL" />
+                    <Progress value={95} skill="HTML" />
+                    <Progress value={90} skill="CSS" />
+                  </div>
                 </div>
               </div>
-
-              <div className="skills">
-                <h2>Habilidades</h2>
-                <div>
-                  <Progress value={75} skill="JavaScript" />
-                  <Progress value={65} skill="ReactJs" />
-                  <Progress value={65} skill="NodeJs" />
-                  <Progress value={60} skill="Docker" />
-                  <Progress value={70} skill="SQL" />
-                  <Progress value={95} skill="HTML" />
-                  <Progress value={90} skill="CSS" />
-                </div>
-              </div>
-            </div>
+            )}
 
             <AboutContact>
               {abouts.length > 0 && (
