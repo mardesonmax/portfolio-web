@@ -3,21 +3,22 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { FiLock, FiMail, FiPower, FiTablet, FiUser } from 'react-icons/fi';
+import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import PageHeader from '../../components/PageHeader';
 
 import { Container, Content } from './styled';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import ButtonLink from '../../components/ButtonLink';
+
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import LoadingSubmit from '../../components/LoadingSubmit';
 import getValidationErrors from '../../utils/getValidationErrors';
+import ProfileMenu from '../../components/ProfileMenu';
 
 const Profile: React.FC = () => {
-  const { user, updateUser, signOut } = useAuth();
+  const { user, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
 
@@ -62,46 +63,39 @@ const Profile: React.FC = () => {
   return (
     <Container>
       <Content>
-        <PageHeader title="Perfil">
-          <div>
-            <ButtonLink to="/profile/contact">
-              <FiTablet /> <span>Contatos</span>
-            </ButtonLink>
+        <ProfileMenu />
+        <div>
+          <PageHeader title="Perfil" />
 
-            <Button bgColor="secondary" onClick={() => signOut()}>
-              <FiPower /> <span>Sair</span>
-            </Button>
-          </div>
-        </PageHeader>
-
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input
-            icon={FiUser}
-            name="name"
-            placeholder="Nome"
-            defaultValue={user.name}
-          />
-          <Input
-            icon={FiMail}
-            type="email"
-            name="email"
-            placeholder="Email"
-            defaultValue={user.email}
-          />
-          <Input
-            icon={FiLock}
-            type="password"
-            name="password"
-            placeholder="Nova senha"
-          />
-          <div>
-            {loadingSubmit ? (
-              <LoadingSubmit />
-            ) : (
-              <Button type="submit">Concluir</Button>
-            )}
-          </div>
-        </Form>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input
+              icon={FiUser}
+              name="name"
+              placeholder="Nome"
+              defaultValue={user.name}
+            />
+            <Input
+              icon={FiMail}
+              type="email"
+              name="email"
+              placeholder="Email"
+              defaultValue={user.email}
+            />
+            <Input
+              icon={FiLock}
+              type="password"
+              name="password"
+              placeholder="Nova senha"
+            />
+            <div>
+              {loadingSubmit ? (
+                <LoadingSubmit />
+              ) : (
+                <Button type="submit">Concluir</Button>
+              )}
+            </div>
+          </Form>
+        </div>
       </Content>
     </Container>
   );

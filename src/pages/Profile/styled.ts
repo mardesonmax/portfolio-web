@@ -20,16 +20,22 @@ const animeTop = keyframes`
 export const Content = styled.div`
   margin: 15px;
   width: 100%;
-  max-width: 700px;
+  max-width: 1200px;
   border-radius: 5px;
+  display: flex;
 
-  form {
-    animation: ${animeTop} 0.5s;
+  > div {
+    flex: 1;
 
-    > div {
-      display: flex;
-      justify-content: flex-end;
-      margin: 15px 0;
+    form {
+      animation: ${animeTop} 1s;
+      margin-top: 15px;
+
+      > div {
+        display: flex;
+        justify-content: flex-end;
+        margin: 15px 0;
+      }
     }
   }
 `;
