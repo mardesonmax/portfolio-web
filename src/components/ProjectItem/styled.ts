@@ -12,41 +12,28 @@ const animeLeftRight = keyframes`
   }
 `;
 
-const animeLeft = keyframes`
+const animeTop = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateY(100px);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const animeRight = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 `;
 
 export const ProjectContent = styled.div`
   position: relative;
+  animation: ${animeTop} 1s ease;
 
   > a {
-    animation: ${animeLeft} 0.5s;
     display: flex;
+    margin-bottom: 20px;
     flex-wrap: wrap;
-    margin: 15px 0;
     background: ${(props) => props.theme.container};
     border-radius: 5px;
-    border-top: 8px solid ${(props) => props.theme.primary};
     box-shadow: ${(props) => props.theme.boxShadow};
     overflow: hidden;
     position: relative;
@@ -59,7 +46,6 @@ export const ProjectContent = styled.div`
       flex-basis: 350px;
 
       .info {
-        h2,
         small {
           color: ${(props) => transparentize(0.2, props.theme.textDark)};
         }
@@ -89,21 +75,32 @@ export const ProjectContent = styled.div`
     .col-2 {
       order: 12;
       display: flex;
-      flex-direction: column;
-      padding: 15px;
+      align-items: center;
+      padding: 20px;
       z-index: 200;
       background: ${(props) => props.theme.container};
       position: relative;
 
       .info {
         flex: 1;
-        h2,
+        h1,
         span {
           color: ${(props) => props.theme.primary};
+          transition: 0.3s ease all;
         }
+
+        h1 {
+          font-size: 25px;
+        }
+
+        span {
+          font-size: 16px;
+        }
+
         p {
           color: ${(props) => props.theme.textDark};
           margin: 5px 0px 15px;
+          font-size: 16px;
         }
       }
     }
@@ -115,9 +112,9 @@ export const ProjectContent = styled.div`
 
       .col-2 {
         .info {
-          h2,
+          h1,
           span {
-            color: ${(props) => shade(0.2, props.theme.primary)};
+            color: ${(props) => shade(0.4, props.theme.primary)};
           }
         }
       }
@@ -143,25 +140,8 @@ export const ProjectContent = styled.div`
   }
 
   &:nth-child(2n) > a {
-    animation: ${animeRight} 0.5s;
-    border-color: ${(props) => props.theme.default};
     .col-2 {
       order: 6;
-      .info {
-        h2,
-        span {
-          color: ${(props) => props.theme.default};
-        }
-      }
-
-      &:hover {
-        .info {
-          h2,
-          span {
-            color: ${(props) => shade(0.2, props.theme.default)};
-          }
-        }
-      }
     }
   }
 

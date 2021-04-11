@@ -59,7 +59,7 @@ const ProjectItem: React.FC<Props> = ({
 
         <div className="col-2 ">
           <div className="info">
-            <h2>{project.title}</h2>
+            <h1>{project.title}</h1>
             <small>Publicando em {formatDate(project.created_at)}</small>
 
             <p>{project.description}</p>
