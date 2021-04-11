@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { FiChevronLeft, FiFacebook, FiInstagram, FiMail } from 'react-icons/fi';
+import { FiFacebook, FiInstagram, FiMail } from 'react-icons/fi';
 import { FaGithub, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import PageHeader from '../../components/PageHeader';
@@ -10,10 +10,10 @@ import PageHeader from '../../components/PageHeader';
 import { Container, Content } from './styled';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import ButtonLink from '../../components/ButtonLink';
 import api from '../../services/api';
 import Loading from '../../components/Loading';
 import LoadingSubmit from '../../components/LoadingSubmit';
+import ProfileMenu from '../../components/ProfileMenu';
 
 interface Contact {
   id?: string;
@@ -33,13 +33,26 @@ const Contact: React.FC = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
+    let isCanceled = false;
     (async () => {
-      setLoading(true);
-      const response = await api.get('/contacts');
+      try {
+        setLoading(true);
+        const response = await api.get('/contacts');
 
-      setContact(response.data);
-      setLoading(false);
+        if (!isCanceled) {
+          setContact(response.data);
+          setLoading(false);
+        }
+      } catch {
+        if (!isCanceled) {
+          setLoading(false);
+        }
+      }
     })();
+
+    return () => {
+      isCanceled = true;
+    };
   }, []);
 
   const handleSubmit = useCallback(async (data) => {
@@ -65,66 +78,64 @@ const Contact: React.FC = () => {
     <Container>
       {loading && <Loading />}
       <Content>
-        <PageHeader title="Contatos">
-          <ButtonLink to="/profile">
-            <FiChevronLeft />
-            <span>Voltar</span>
-          </ButtonLink>
-        </PageHeader>
+        <ProfileMenu />
+        <div>
+          <PageHeader title="Contatos" />
 
-        {contact.id && (
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <Input
-              icon={FiFacebook}
-              name="facebook"
-              placeholder="Facebook"
-              defaultValue={contact.facebook}
-            />
-            <Input
-              icon={FiInstagram}
-              name="instagram"
-              placeholder="Instagram"
-              defaultValue={contact.instagram}
-            />
-            <Input
-              icon={FaWhatsapp}
-              name="whatsapp"
-              placeholder="WhatsApp"
-              defaultValue={contact.whatsapp}
-            />
-            <Input
-              icon={FaGithub}
-              name="github"
-              placeholder="Github"
-              defaultValue={contact.github}
-            />
-            <Input
-              icon={FaLinkedin}
-              name="linkedin"
-              placeholder="Linkedin"
-              defaultValue={contact.linkedin}
-            />
-            <Input
-              icon={FiMail}
-              name="email"
-              placeholder="Email"
-              defaultValue={contact.email}
-            />
-            <Input
-              icon={FaTwitter}
-              name="Twitter"
-              placeholder="Twitter"
-              defaultValue={contact.twitter}
-            />
-            <div>
-              {loadingSubmit ? (
-                <LoadingSubmit />
-              ) : (
-                <Button type="submit">Concluir</Button>
-              )}
-            </div>
-          </Form>
-        )}
+          {contact.id && (
+            <Form ref={formRef} onSubmit={handleSubmit}>
+              <Input
+                icon={FiFacebook}
+                name="facebook"
+                placeholder="Facebook"
+                defaultValue={contact.facebook}
+              />
+              <Input
+                icon={FiInstagram}
+                name="instagram"
+                placeholder="Instagram"
+                defaultValue={contact.instagram}
+              />
+              <Input
+                icon={FaWhatsapp}
+                name="whatsapp"
+                placeholder="WhatsApp"
+                defaultValue={contact.whatsapp}
+              />
+              <Input
+                icon={FaGithub}
+                name="github"
+                placeholder="Github"
+                defaultValue={contact.github}
+              />
+              <Input
+                icon={FaLinkedin}
+                name="linkedin"
+                placeholder="Linkedin"
+                defaultValue={contact.linkedin}
+              />
+              <Input
+                icon={FiMail}
+                name="email"
+                placeholder="Email"
+                defaultValue={contact.email}
+              />
+              <Input
+                icon={FaTwitter}
+                name="Twitter"
+                placeholder="Twitter"
+                defaultValue={contact.twitter}
+              />
+              <div>
+                {loadingSubmit ? (
+                  <LoadingSubmit />
+                ) : (
+                  <Button type="submit">Concluir</Button>
+                )}
+              </div>
+            </Form>
+          )}
+        </div>
       </Content>
     </Container>
   );
