@@ -27,9 +27,9 @@ const Projects: React.FC = () => {
     let isCanceled = false;
     (async () => {
       setLoading(true);
-      const response = user
-        ? await api.get('/projects?admin=active')
-        : await api.get('/projects');
+      const response = await api.get('/projects', {
+        params: user ? { admin: 'active' } : {},
+      });
       if (!isCanceled) {
         setProjects(response.data);
         setLoading(false);

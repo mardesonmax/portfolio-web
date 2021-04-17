@@ -42,9 +42,8 @@ const ProjectCreate: React.FC = () => {
       const data = new FormData();
 
       data.append('image', filesData[0]);
-      data.append('proj_id', proj_id);
 
-      await api.patch('/projects', data);
+      await api.patch(`/projects/${proj_id}`, data);
     },
     [],
   );
@@ -63,18 +62,20 @@ const ProjectCreate: React.FC = () => {
         });
 
         setLoadingSubmit(true);
-        const project = await api.post('/projects', data);
+        const response = await api.post('/projects', data);
 
         if (files.length > 0) {
-          await handleUploadFile(files, project.data.id);
+          await handleUploadFile(files, response.data.id);
         }
 
-        toast('Projeto cadastrado com sucesso.', {
+        toast('Projeto criado com sucesso.', {
           type: 'success',
         });
+        setLoadingSubmit(false);
 
         history.push('/projects');
       } catch (err) {
+        setLoadingSubmit(false);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
@@ -91,8 +92,6 @@ const ProjectCreate: React.FC = () => {
         toast('Algo saiu errado, tente novamente.', {
           type: 'error',
         });
-      } finally {
-        setLoadingSubmit(false);
       }
     },
     [files, handleUploadFile, history],

@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
-import { shade } from 'polished';
+import { shade, transparentize } from 'polished';
 
 const animate = keyframes`
   0% {
@@ -18,6 +18,7 @@ export const Container = styled.div`
   box-shadow: ${(props) => props.theme.boxShadow};
   background: ${(props) => props.theme.banner};
   height: 40vh;
+  max-height: 400px;
   position: relative;
 
   &::before {
@@ -34,12 +35,9 @@ export const Container = styled.div`
       background: linear-gradient(
         125deg,
         transparent 70%,
-        ${shade(0.1, props.theme.banner)} 30%
+        ${shade(0.2, props.theme.banner)} 30%
       );
     `};
-  }
-
-  @media (max-width: 768px) {
   }
 `;
 
@@ -56,7 +54,7 @@ export const Content = styled.div`
 
   h1,
   h3 {
-    color: ${(props) => props.theme.textLight};
+    color: ${(props) => transparentize(0.2, props.theme.textLight)};
   }
 
   h1 {
@@ -67,5 +65,14 @@ export const Content = styled.div`
   h3 {
     font-weight: lighter;
     letter-spacing: 1.5px;
+  }
+
+  @media (max-width: 768px) {
+    h3 {
+      font-size: 12px;
+    }
+    h1 {
+      font-size: 23px;
+    }
   }
 `;

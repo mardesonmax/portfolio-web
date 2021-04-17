@@ -90,7 +90,7 @@ export const AboutProfile = styled.div`
       animation: ${anime} 1s ease;
 
       h2 {
-        margin-top: 10px;
+        margin: 20px 0;
         color: ${(props) => props.theme.primary};
         text-align: center;
       }
@@ -99,7 +99,7 @@ export const AboutProfile = styled.div`
     .skills {
       h2 {
         color: ${(props) => props.theme.primary};
-        margin-top: 10px;
+        margin: 20px 0;
         text-align: center;
       }
       > div {

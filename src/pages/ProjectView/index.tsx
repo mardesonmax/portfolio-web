@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import NotFound from '../../components/NotFound';
 import PageHeader from '../../components/PageHeader';
+import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import formatDate from '../../utils/formatDate';
 
@@ -30,6 +31,7 @@ interface Params {
 
 const ProjectView: React.FC = () => {
   const params = useParams<Params>();
+  const { user } = useAuth();
   const [project, setProject] = useState<Project>({} as Project);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +39,10 @@ const ProjectView: React.FC = () => {
     let isCanceled = false;
     (async () => {
       try {
-        const response = await api.get(`/projects/${params.base_url}`);
+        const response = await api.get(`/projects/${params.base_url}`, {
+          params: user ? { admin: 'active' } : {},
+        });
+
         if (!isCanceled) {
           setProject(response.data);
           setLoading(false);
@@ -52,7 +57,7 @@ const ProjectView: React.FC = () => {
     return () => {
       isCanceled = true;
     };
-  }, [params]);
+  }, [params, user]);
 
   return (
     <Container>

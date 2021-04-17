@@ -6,7 +6,7 @@ import Loading from '../../components/Loading';
 import { Container, Content, AboutContact, AboutProfile } from './styled';
 import { Contact } from '../Contact';
 
-import ProfileJPEG from '../../assets/profile.jpeg';
+import avatarSvg from '../../assets/avatar.svg';
 import Progress from '../../components/Progress';
 import Banner from '../../components/Banner';
 import AboutContent from '../../components/AboutContent';
@@ -64,7 +64,7 @@ const AboutView: React.FC = () => {
             {contacts.id && (
               <div className="profile">
                 <div className="image">
-                  <img src={ProfileJPEG} alt="Mardeson Pereira" />
+                  <img src={avatarSvg} alt="Mardeson Pereira" />
                 </div>
 
                 <div className="contacts">

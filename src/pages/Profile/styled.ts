@@ -31,6 +31,29 @@ export const Content = styled.div`
       animation: ${animeTop} 1s;
       margin-top: 15px;
 
+      .new-password {
+        display: flex;
+        flex-direction: column;
+
+        .title-button {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          box-shadow: ${(props) => props.theme.boxShadow};
+          background: ${(props) => props.theme.container};
+          padding: 10px;
+          border-radius: 5px;
+
+          p {
+            color: ${(props) => props.theme.textDark};
+          }
+        }
+
+        div + div {
+          margin-top: 15px;
+        }
+      }
+
       > div {
         display: flex;
         justify-content: flex-end;

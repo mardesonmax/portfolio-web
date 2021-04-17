@@ -95,9 +95,8 @@ const ProjectUpdate: React.FC = () => {
       const data = new FormData();
 
       data.append('image', filesData[0]);
-      data.append('proj_id', proj_id);
 
-      const response = await api.patch('/projects', data);
+      const response = await api.patch(`/projects/${proj_id}`, data);
 
       setProject((state) => ({ ...state, image: response.data }));
       setPreviews([response.data]);
@@ -131,11 +130,7 @@ const ProjectUpdate: React.FC = () => {
           type: 'success',
         });
 
-        if (project.title !== upProject.data.title) {
-          history.push(`/projects/edit/${upProject.data.base_url}`);
-          return;
-        }
-        window.scrollTo(0, 0);
+        history.push(`/projects/view/${upProject.data.base_url}`);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -207,7 +202,7 @@ const ProjectUpdate: React.FC = () => {
                 defaultValue={project.link_code}
               />
               <Input
-                name="link_project:"
+                name="link_project"
                 label="Projecto"
                 defaultValue={project.link_project}
               />

@@ -58,6 +58,7 @@ const Contact: React.FC = () => {
   const handleSubmit = useCallback(async (data) => {
     try {
       setLoadingSubmit(true);
+
       const response = await api.post('/contacts', data);
 
       setContact(response.data);
@@ -79,62 +80,61 @@ const Contact: React.FC = () => {
       {loading && <Loading />}
       <Content>
         <ProfileMenu />
+
         <div>
           <PageHeader title="Contatos" />
 
-          {contact.id && (
-            <Form ref={formRef} onSubmit={handleSubmit}>
-              <Input
-                icon={FiFacebook}
-                name="facebook"
-                placeholder="Facebook"
-                defaultValue={contact.facebook}
-              />
-              <Input
-                icon={FiInstagram}
-                name="instagram"
-                placeholder="Instagram"
-                defaultValue={contact.instagram}
-              />
-              <Input
-                icon={FaWhatsapp}
-                name="whatsapp"
-                placeholder="WhatsApp"
-                defaultValue={contact.whatsapp}
-              />
-              <Input
-                icon={FaGithub}
-                name="github"
-                placeholder="Github"
-                defaultValue={contact.github}
-              />
-              <Input
-                icon={FaLinkedin}
-                name="linkedin"
-                placeholder="Linkedin"
-                defaultValue={contact.linkedin}
-              />
-              <Input
-                icon={FiMail}
-                name="email"
-                placeholder="Email"
-                defaultValue={contact.email}
-              />
-              <Input
-                icon={FaTwitter}
-                name="Twitter"
-                placeholder="Twitter"
-                defaultValue={contact.twitter}
-              />
-              <div>
-                {loadingSubmit ? (
-                  <LoadingSubmit />
-                ) : (
-                  <Button type="submit">Concluir</Button>
-                )}
-              </div>
-            </Form>
-          )}
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input
+              icon={FiFacebook}
+              name="facebook"
+              placeholder="Facebook"
+              defaultValue={contact.facebook}
+            />
+            <Input
+              icon={FiInstagram}
+              name="instagram"
+              placeholder="Instagram"
+              defaultValue={contact.instagram}
+            />
+            <Input
+              icon={FaWhatsapp}
+              name="whatsapp"
+              placeholder="WhatsApp"
+              defaultValue={contact.whatsapp}
+            />
+            <Input
+              icon={FaGithub}
+              name="github"
+              placeholder="Github"
+              defaultValue={contact.github}
+            />
+            <Input
+              icon={FaLinkedin}
+              name="linkedin"
+              placeholder="Linkedin"
+              defaultValue={contact.linkedin}
+            />
+            <Input
+              icon={FiMail}
+              name="email"
+              placeholder="Email"
+              defaultValue={contact.email}
+            />
+            <Input
+              icon={FaTwitter}
+              name="twitter"
+              placeholder="Twitter"
+              defaultValue={contact.twitter}
+            />
+            <div>
+              {loadingSubmit ? (
+                <LoadingSubmit />
+              ) : (
+                <Button type="submit">Concluir</Button>
+              )}
+            </div>
+          </Form>
         </div>
       </Content>
     </Container>

@@ -16,7 +16,7 @@ import { useAuth } from '../../hooks/auth';
 
 import { InitialState } from '../../App';
 
-import ProfileJpg from '../../assets/profile.jpeg';
+import avatarSvg from '../../assets/avatar.svg';
 
 interface StateType {
   StateProps: {
@@ -60,7 +60,7 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
           {user && (
             <li>
               <NavLink to="/profile">
-                <img src={ProfileJpg} alt={user.name.split(' ')[0]} />
+                <img src={avatarSvg} alt="Avatar" />
                 <span>{`${user.name.split(' ')[0]}`}</span>
               </NavLink>
             </li>

@@ -35,46 +35,61 @@ export const Content = styled.div`
   max-width: 1200px;
   border-radius: 5px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 
   .contacts h2,
   .form h2 {
     color: ${(props) => props.theme.primary};
-    margin-bottom: 10px;
   }
 
   .contacts {
     flex: 1;
     flex-basis: 350px;
-    max-width: 400px;
-    align-self: flex-start;
     background: ${(props) => props.theme.container};
     box-shadow: ${(props) => props.theme.boxShadow};
     margin-right: 20px;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
-    margin-bottom: 20px;
     animation: ${animeLeft} 1s ease;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+
+    > div {
+      flex: 1;
+      h2 {
+        margin-bottom: 30px;
+      }
+    }
+
+    img {
+      width: 100%;
+      margin-top: 15px;
+    }
   }
 
   .form {
     flex: 1;
-    flex-basis: 450px;
-    max-width: 800px;
+    flex-basis: 364px;
     background: ${(props) => props.theme.container};
     box-shadow: ${(props) => props.theme.boxShadow};
-    padding: 20px;
     border-radius: 5px;
     animation: ${animeRight} 1s ease;
 
+    h2 {
+      padding: 0 20px;
+      margin-top: 10px;
+    }
+
     label {
-      box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.13);
       background: ${(props) => props.theme.background};
     }
 
     form {
+      margin: 20px;
+
       > div {
         display: flex;
         justify-content: flex-end;
@@ -84,8 +99,14 @@ export const Content = styled.div`
   }
 
   @media (max-width: 768px) {
+    flex-wrap: wrap;
     .contacts {
-      margin-right: 0;
+      margin: 0 20px;
+      margin-bottom: 20px;
+    }
+
+    .form {
+      margin: 0 20px;
     }
   }
 `;

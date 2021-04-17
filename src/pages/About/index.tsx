@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FormHandles } from '@unform/core';
-import * as Yup from 'yup';
 
 import { FiPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
@@ -10,7 +8,6 @@ import { Container, Content, AboutContact } from './styled';
 import Button from '../../components/Button';
 
 import api from '../../services/api';
-import getValidationErrors from '../../utils/getValidationErrors';
 import ProfileMenu from '../../components/ProfileMenu';
 import Modal from '../../components/Modal';
 import Loading from '../../components/Loading';
@@ -24,8 +21,6 @@ interface IAbout {
 }
 
 const About: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [aboutPlus, setAboutPlus] = useState(false);
   const [abouts, setAbouts] = useState<IAbout[]>([]);
   const [aboutRemoved, setAboutRemoved] = useState<IAbout>({} as IAbout);
@@ -57,70 +52,6 @@ const About: React.FC = () => {
     };
   }, []);
 
-  const handleSubmit = useCallback(
-    async (data) => {
-      try {
-        setLoadingSubmit(true);
-        formRef.current?.setErrors({});
-        const schema = Yup.object().shape({
-          title: Yup.string().required('Titulo obrigatório'),
-          description: Yup.string().required('Descrição obrigatória'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        if (aboutEdit) {
-          const response = await api.put(`/abouts/${aboutEdit}`, data);
-
-          setAbouts((state) =>
-            state.map((about) => {
-              if (about.id === response.data.id) {
-                return response.data;
-              }
-              return about;
-            }),
-          );
-
-          toast('Informação alterada com sucesso.', {
-            type: 'success',
-          });
-
-          setAboutEdit('');
-
-          return;
-        }
-
-        const response = await api.post('/abouts', data);
-
-        setAbouts((state) => [...state, response.data]);
-        formRef.current?.reset();
-
-        toast('Informação inserida com sucesso.', {
-          type: 'success',
-        });
-
-        setAboutPlus(false);
-
-        window.scrollTo(0, document.querySelector('html')?.scrollHeight || 0);
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-          return;
-        }
-
-        toast('Algo deu errado, tente novamente.', {
-          type: 'error',
-        });
-      } finally {
-        setLoadingSubmit(false);
-      }
-    },
-    [aboutEdit],
-  );
-
   useEffect(() => {
     (async () => {
       if (confirmDelete && aboutRemoved.id) {
@@ -143,6 +74,10 @@ const About: React.FC = () => {
     })();
   }, [aboutRemoved, confirmDelete]);
 
+  useEffect(() => {
+    setAboutEdit('');
+  }, [abouts]);
+
   const handleDelete = useCallback(
     (about: IAbout) => {
       setAboutRemoved(about);
@@ -156,12 +91,12 @@ const About: React.FC = () => {
     setAboutEdit('');
   }, []);
 
-  const handleAbortPlus = useCallback(() => {
+  const handleAboutPlus = useCallback(() => {
     setAboutPlus(true);
     setAboutEdit('');
   }, []);
 
-  const handleAbortEdit = useCallback((id: string) => {
+  const handleAboutEdit = useCallback((id: string) => {
     setAboutEdit(id);
     setAboutPlus(false);
   }, []);
@@ -182,18 +117,14 @@ const About: React.FC = () => {
         <div>
           <PageHeader title="Sobre mim">
             <div>
-              <Button onClick={handleAbortPlus}>
+              <Button onClick={handleAboutPlus}>
                 <FiPlus /> Adicionar
               </Button>
             </div>
           </PageHeader>
 
           {aboutPlus && (
-            <AboutForm
-              handleAbort={handleAbort}
-              handleSubmit={handleSubmit}
-              loadingSubmit={loadingSubmit}
-            />
+            <AboutForm handleAbort={handleAbort} setAbouts={setAbouts} />
           )}
 
           <AboutContact>
@@ -204,8 +135,7 @@ const About: React.FC = () => {
                     <AboutForm
                       key={about.id}
                       handleAbort={handleAbort}
-                      handleSubmit={handleSubmit}
-                      loadingSubmit={loadingSubmit}
+                      setAbouts={setAbouts}
                       about={about}
                     />
                   ) : (
@@ -213,7 +143,7 @@ const About: React.FC = () => {
                       key={about.id}
                       about={about}
                       handleDelete={handleDelete}
-                      handleAboutEdit={handleAbortEdit}
+                      handleAboutEdit={handleAboutEdit}
                     />
                   ),
                 )}
