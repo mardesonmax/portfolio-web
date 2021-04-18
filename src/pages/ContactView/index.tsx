@@ -150,6 +150,7 @@ const Projects: React.FC = () => {
                     label="WhatsApp:"
                     onChange={(e) => handleValidate(e)}
                     value={wpp}
+                    placeholder="(99) 9 8888.8888"
                   />
                   <Textarea name="subject" label="Assunto:" />
 
