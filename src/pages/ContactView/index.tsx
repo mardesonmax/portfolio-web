@@ -61,7 +61,9 @@ const Projects: React.FC = () => {
         email: Yup.string()
           .email('Email inválido')
           .required('Email obrigatório'),
-        whatsapp: Yup.string().required('WhatsApp obrigatório'),
+        whatsapp: Yup.string()
+          .required('WhatsApp obrigatório')
+          .min(16, 'Número inválido'),
         subject: Yup.string().required('Assunto obrigatório'),
       });
 
