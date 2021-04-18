@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { FileWithPath } from 'react-dropzone';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { FiChevronLeft } from 'react-icons/fi';
 
@@ -53,7 +53,6 @@ interface Project {
 
 const ProjectUpdate: React.FC = () => {
   const params = useParams<Params>();
-  const history = useHistory();
   const formRef = useRef<FormHandles>(null);
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [previews, setPreviews] = useState<File[]>([]);
@@ -152,7 +151,7 @@ const ProjectUpdate: React.FC = () => {
         setLoadingSubmit(false);
       }
     },
-    [files, handleUploadFile, project, history],
+    [files, handleUploadFile, project],
   );
 
   const onUpload = useCallback(

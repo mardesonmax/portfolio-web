@@ -45,7 +45,7 @@ const AboutForm: React.FC<Props> = ({ handleAbort, setAbouts, about }) => {
           abortEarly: false,
         });
 
-        let response: AxiosResponse<any>;
+        let response: AxiosResponse<About>;
 
         if (about) {
           response = await api.put(`/abouts/${about.id}`, data);
@@ -83,7 +83,7 @@ const AboutForm: React.FC<Props> = ({ handleAbort, setAbouts, about }) => {
         setLoadingSubmit(false);
       }
     },
-    [about, setAbouts, handleAbort],
+    [about, setAbouts],
   );
 
   return (

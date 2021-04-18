@@ -130,9 +130,16 @@ export const Container = styled.header<Props>`
   }
 
   @media (max-width: 576px) {
-    nav ul {
-      margin-bottom: 5px;
-      justify-content: space-between;
+    nav {
+      .logo {
+        flex: 100%;
+        justify-content: center;
+      }
+
+      ul {
+        margin-bottom: 5px;
+        justify-content: center;
+      }
     }
   }
 `;

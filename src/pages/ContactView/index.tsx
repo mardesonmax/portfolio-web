@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+} from 'react';
+
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -21,6 +28,7 @@ const Projects: React.FC = () => {
   const [contacts, setContacts] = useState<Contact>({} as Contact);
   const [loading, setLoading] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [wpp, setWpp] = useState('');
 
   useEffect(() => {
     let isCanceled = false;
@@ -90,6 +98,28 @@ const Projects: React.FC = () => {
     }
   }, []);
 
+  const handleValidate = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    // (88) 9 8888.8888
+    let number = '';
+
+    number = e.target.value.replace(/\D/g, '');
+
+    if (number.length < 11) {
+      setWpp(number);
+      return;
+    }
+
+    const numberArray = number.split('');
+    const n1 = numberArray.slice(0, 2).join('');
+    const n2 = numberArray.slice(2, 3).join('');
+    const n3 = numberArray.slice(3, 7).join('');
+    const n4 = numberArray.slice(7, 11).join('');
+
+    number = `(${n1}) ${n2} ${n3}-${n4}`;
+
+    setWpp(number);
+  }, []);
+
   return (
     <>
       <Banner title="CONTATO" subTitle="Vamos bater um papo?" />
@@ -113,7 +143,12 @@ const Projects: React.FC = () => {
                 <Form ref={formRef} onSubmit={handleSubmit}>
                   <Input name="name" label="Nome:" />
                   <Input name="email" label="E-mail:" />
-                  <Input name="whatsapp" label="WhatsApp:" />
+                  <Input
+                    name="whatsapp"
+                    label="WhatsApp:"
+                    onChange={(e) => handleValidate(e)}
+                    value={wpp}
+                  />
                   <Textarea name="subject" label="Assunto:" />
 
                   <div>

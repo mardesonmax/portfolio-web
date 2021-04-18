@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { FiPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
@@ -75,6 +75,7 @@ const About: React.FC = () => {
   }, [aboutRemoved, confirmDelete]);
 
   useEffect(() => {
+    setAboutPlus(false);
     setAboutEdit('');
   }, [abouts]);
 
