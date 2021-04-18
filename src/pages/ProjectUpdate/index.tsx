@@ -130,7 +130,7 @@ const ProjectUpdate: React.FC = () => {
           type: 'success',
         });
 
-        history.push(`/projects/view/${upProject.data.base_url}`);
+        window.scrollTo(0, 0);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
