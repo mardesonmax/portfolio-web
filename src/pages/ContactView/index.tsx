@@ -112,7 +112,7 @@ const Projects: React.FC = () => {
                 </h2>
                 <Form ref={formRef} onSubmit={handleSubmit}>
                   <Input name="name" label="Nome:" />
-                  <Input type="email" name="email" label="E-mail:" />
+                  <Input name="email" label="E-mail:" />
                   <Input name="whatsapp" label="WhatsApp:" />
                   <Textarea name="subject" label="Assunto:" />
 
