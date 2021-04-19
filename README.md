@@ -6,7 +6,7 @@
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-executar">Executar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-utilizar">Utilizar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-licença">Licença</a>
 </p>
 
@@ -39,10 +39,12 @@ Projeto desenvolvido para colocar em pratica meus conhecimentos.
 
 Em breve...
 
-## 🚀 Executar
+## 📜️ Utilizar
 
 - <b>Requisitos:</b> NodeJS, Yarn e <a href="https://github.com/mardesonmax/api-portfolio">API Portfólio</a>
-- <b>Para iniciar:</b>  Clone o repositório e utilize os comandos `yarn && yarn start`
+- <b>Primeiro:</b> Clone o repositório.
+- <b>Execute:</b> `yarn` para instalar as depedencias.
+- <b>Execute:</b> `yarn start` para iniciar o projeto.
 - <b>Acesse:</b> <a href="http://localhost:3000">http://localhost:3000</a>
 
 ## :memo: Licença
