@@ -30,12 +30,12 @@ export const Container = styled.section`
 `;
 
 export const Content = styled.div`
-  margin: 20px;
   width: 100%;
   max-width: 1200px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
+  margin: 20px;
 
   .contacts h2,
   .form h2 {
@@ -101,12 +101,8 @@ export const Content = styled.div`
   @media (max-width: 768px) {
     flex-wrap: wrap;
     .contacts {
-      margin: 0 20px;
+      margin: 0;
       margin-bottom: 20px;
-    }
-
-    .form {
-      margin: 0 20px;
     }
   }
 `;

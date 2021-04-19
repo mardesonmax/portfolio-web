@@ -47,7 +47,7 @@ export const Content = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
   position: relative;
 
   max-width: 1200px;
