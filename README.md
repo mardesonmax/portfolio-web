@@ -39,7 +39,7 @@ Projeto desenvolvido para colocar em pratica meus conhecimentos.
 
 Em breve...
 
-## 📜️ Utilizar
+## 📄 Utilizar
 
 - <b>Requisitos:</b> NodeJS, Yarn e <a href="https://github.com/mardesonmax/api-portfolio">API Portfólio</a>
 - <b>Primeiro:</b> Clone o repositório.
