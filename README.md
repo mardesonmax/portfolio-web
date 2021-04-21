@@ -28,8 +28,13 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 - HTML
 - CSS
-- JavaScript
 - ReactJS
+- NodeJS
+- JavaScript
+- TypeScript
+- Postgres
+- Redis
+- TypeORM
 
 ## 💻 Projeto
 
