@@ -14,6 +14,7 @@ export const Container = styled.div`
   p {
     margin-top: 5px;
     color: ${(props) => props.theme.textDark};
+    font-size: 16px;
   }
 
   > div {
