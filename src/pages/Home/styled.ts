@@ -186,6 +186,7 @@ export const Content = styled.div`
 
     a {
       margin-right: 8px;
+      margin-top: 8px;
     }
   }
 
