@@ -57,7 +57,7 @@ export const Container = styled.div`
   width: 100vw;
   padding: 20px;
   top: 0;
-  background: ${(props) => props.theme.background};
+  background: ${(props) => props.theme.container};
   position: absolute;
   z-index: 9999;
   overflow: hidden;
