@@ -140,6 +140,7 @@ export const Content = styled.div`
       color: ${(props) => props.theme.textDark};
       font-weight: lighter;
       animation: ${animeTop} 0.5s ease;
+      animation-fill-mode: backwards;
     }
 
     h1 + h3 {
