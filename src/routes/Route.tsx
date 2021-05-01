@@ -25,18 +25,14 @@ const Route: React.FC<RouteProps> = ({
       {...rest}
       render={() => {
         if (isLogged && !!user) {
-          return <Redirect to={{ pathname: '/projects' }} />;
+          return <Redirect to={{ pathname: '/profile' }} />;
         }
 
-        if (isPrivate === !!user) {
-          return <Component />;
-        }
-
-        if (!isPrivate && !!user) {
-          return <Component />;
-        }
-
-        return <Redirect to={{ pathname: '/projects' }} />;
+        return isPrivate === !!user || (!isPrivate && !!user) ? (
+          <Component />
+        ) : (
+          <Redirect to={{ pathname: '/' }} />
+        );
       }}
     />
   );

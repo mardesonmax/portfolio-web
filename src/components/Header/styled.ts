@@ -101,19 +101,6 @@ export const Container = styled.header<Props>`
             color: ${(props) => props.theme.primary};
           }
         }
-
-        button {
-          border: none;
-          background: none;
-
-          .sun {
-            color: yellow;
-          }
-
-          &:hover {
-            transform: scale(1.2);
-          }
-        }
       }
     }
   }

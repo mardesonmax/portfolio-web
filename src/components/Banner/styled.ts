@@ -54,7 +54,7 @@ export const Content = styled.div`
 
   h1,
   h3 {
-    color: ${(props) => transparentize(0.2, props.theme.textLight)};
+    color: ${(props) => props.theme.textLight};
   }
 
   h1 {

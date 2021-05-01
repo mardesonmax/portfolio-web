@@ -1,12 +1,5 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { FiCode, FiUser, FiSmartphone, FiSun, FiMoon } from 'react-icons/fi';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FiCode, FiUser, FiSmartphone } from 'react-icons/fi';
 
 import { Link, NavLink } from 'react-router-dom';
 import { Container } from './styled';
@@ -14,21 +7,12 @@ import { Container } from './styled';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
 
-import { InitialState } from '../../App';
-
 import avatarSvg from '../../assets/avatar.svg';
+import ButtonTheme from '../ButtonTheme';
 
-interface StateType {
-  StateProps: {
-    theme: InitialState;
-    setTheme: Dispatch<SetStateAction<InitialState>>;
-  };
-}
-
-const Header: React.FC<StateType> = ({ StateProps }) => {
+const Header: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
-  const { theme, setTheme } = StateProps;
   const [scrollTop, setScrollTop] = useState(0);
   const [height, setHeight] = useState(0);
 
@@ -88,13 +72,7 @@ const Header: React.FC<StateType> = ({ StateProps }) => {
           </li>
 
           <li>
-            <button
-              className="theme"
-              type="button"
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            >
-              {theme === 'light' ? <FiMoon /> : <FiSun className="sun" />}
-            </button>
+            <ButtonTheme />
           </li>
         </ul>
       </nav>
