@@ -13,7 +13,7 @@ const themes = {
   },
 
   dark: {
-    primary: '#378fa2',
+    primary: '#1a9ebc',
     secondary: '#c471ed',
     textDark: '#777',
     textLight: '#e7e7e7',
